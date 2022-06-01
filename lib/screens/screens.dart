@@ -1,0 +1,11 @@
+export 'package:antojos_app/screens/login_screen.dart';
+export 'package:antojos_app/screens/register_screen.dart';
+export 'package:antojos_app/screens/home_screen.dart';
+export 'package:antojos_app/screens/loading_screen.dart';
+export 'package:antojos_app/screens/favorites_screen.dart';
+export 'package:antojos_app/screens/history_screen.dart';
+export 'package:antojos_app/screens/sales_screen.dart';
+export 'package:antojos_app/screens/settings_screen.dart';
+export 'package:antojos_app/screens/info_screen.dart';
+export 'package:antojos_app/screens/trolley_screen.dart';
+export 'package:antojos_app/screens/search_screen.dart';
