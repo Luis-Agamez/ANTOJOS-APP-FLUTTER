@@ -3,10 +3,15 @@ import 'package:antojos_app/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'blocs/product/product_bloc.dart';
+import 'blocs/search/search_bloc.dart';
+
 void main() {
-  runApp(MultiBlocProvider(
-      providers: [BlocProvider(create: (context) => AuthBloc())],
-      child: const MyApp()));
+  runApp(MultiBlocProvider(providers: [
+    BlocProvider(create: (context) => AuthBloc()),
+    BlocProvider(create: (context) => ProductBloc()),
+    BlocProvider(create: (context) => SearchBloc())
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {

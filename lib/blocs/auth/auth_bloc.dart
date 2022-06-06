@@ -29,14 +29,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     late User user;
     final data = {'email': email, 'password': password};
 
-    final uri = Uri.parse('${Environment.apiUrl}/login');
+    final uri = Uri.parse('${Environment.apiUrl}/auth/login');
 
     final resp = await http.post(uri,
         body: jsonEncode(data), headers: {'Content-Type': 'application/json'});
 
+    print(resp.body);
     if (resp.statusCode == 200) {
       print(resp.body);
-      final loginResponse = loginResponseFromJson(resp.body);
+      final loginResponse = LoginResponse.fromJson(resp.body);
       user = loginResponse.user;
       await _savedToken(loginResponse.token);
       add(ActiveUser(user));
@@ -50,13 +51,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future register(String name, String email, String password) async {
     final data = {'name': name, 'email': email, 'password': password};
 
-    final uri = Uri.parse('${Environment.apiUrl}/login/new');
+    final uri = Uri.parse('${Environment.apiUrl}/auth/new');
 
     final resp = await http.post(uri,
         body: jsonEncode(data), headers: {'Content-Type': 'application/json'});
-
+    print(resp);
     if (resp.statusCode == 200) {
-      final loginResponse = loginResponseFromJson(resp.body);
+      final loginResponse = LoginResponse.fromJson(resp.body);
       user = loginResponse.user;
       print(user);
       await _savedToken(loginResponse.token);
@@ -64,7 +65,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       return true;
     } else {
       final resBody = jsonDecode(resp.body);
-      return resBody['msg'];
+      return resBody['ok'];
     }
   }
 
@@ -76,14 +77,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<bool> idLogggedIn() async {
     final token = await _storage.read(key: 'token');
 
-    final uri = Uri.parse('${Environment.apiUrl}/login/renew');
+    final uri = Uri.parse('${Environment.apiUrl}/auth/renew');
 
     final resp = await http.get(uri,
         headers: {'Content-Type': 'application/json', 'x-token': '$token'});
 
     if (resp.statusCode == 200) {
-      final loginResponse = loginResponseFromJson(resp.body);
+      final loginResponse = LoginResponse.fromJson(resp.body);
       user = loginResponse.user;
+      print(user);
       add(ActiveUser(user));
       await _savedToken(loginResponse.token);
       return true;

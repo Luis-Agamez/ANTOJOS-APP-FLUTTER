@@ -9,3 +9,4 @@ export 'package:antojos_app/screens/settings_screen.dart';
 export 'package:antojos_app/screens/info_screen.dart';
 export 'package:antojos_app/screens/trolley_screen.dart';
 export 'package:antojos_app/screens/search_screen.dart';
+export 'package:antojos_app/screens/details_screen.dart';

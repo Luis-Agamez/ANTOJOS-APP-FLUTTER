@@ -13,4 +13,5 @@ final Map<String, Widget Function(BuildContext)> appRoutes = {
   'information': (_) => const InfoScreen(),
   'trolley': (_) => const TrolleyScreen(),
   'routes': (_) => const SearchScreen(),
+  'details': (_) => const DetailsScreen(),
 };

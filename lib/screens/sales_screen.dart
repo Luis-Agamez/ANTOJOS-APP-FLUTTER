@@ -16,7 +16,8 @@ class SalesScreen extends StatelessWidget {
       drawer: BlocBuilder<AuthBloc, AuthState>(builder: (_, state) {
         return state.existsUser
             ? SideMenu(
-                name: state.user!.name,
+                name: 'aaaa',
+                // name: state.user!.name,
                 colorShoping: const Color.fromARGB(221, 241, 13, 13))
             : const Text('');
       }),

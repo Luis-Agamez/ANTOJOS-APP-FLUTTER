@@ -2,13 +2,13 @@
 //
 //     final loginResponse = loginResponseFromJson(jsonString);
 
+// To parse this JSON data, do
+//
+//     final loginResponse = loginResponseFromMap(jsonString);
+
 import 'dart:convert';
+
 import 'package:antojos_app/models/user.dart';
-
-LoginResponse loginResponseFromJson(String str) =>
-    LoginResponse.fromJson(json.decode(str));
-
-String loginResponseToJson(LoginResponse data) => json.encode(data.toJson());
 
 class LoginResponse {
   LoginResponse({
@@ -17,19 +17,24 @@ class LoginResponse {
     required this.token,
   });
 
-  bool ok;
-  User user;
-  String token;
+  final bool ok;
+  final User user;
+  final String token;
 
-  factory LoginResponse.fromJson(Map<String, dynamic> json) => LoginResponse(
+  factory LoginResponse.fromJson(String str) =>
+      LoginResponse.fromMap(json.decode(str));
+
+  String toJson() => json.encode(toMap());
+
+  factory LoginResponse.fromMap(Map<String, dynamic> json) => LoginResponse(
         ok: json["ok"],
-        user: User.fromJson(json["user"]),
+        user: User.fromMap(json["user"]),
         token: json["token"],
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toMap() => {
         "ok": ok,
-        "user": user.toJson(),
+        "user": user.toMap(),
         "token": token,
       };
 }

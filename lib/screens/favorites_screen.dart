@@ -16,7 +16,8 @@ class FavoritesScreen extends StatelessWidget {
       drawer: BlocBuilder<AuthBloc, AuthState>(builder: (_, state) {
         return state.existsUser
             ? SideMenu(
-                name: state.user!.name,
+                name: 'aaaaa',
+                // name: state.user!.name,
                 colorFavorite: const Color.fromARGB(221, 241, 13, 13))
             : const Text('');
       }),

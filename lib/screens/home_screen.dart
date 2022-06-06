@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../blocs/auth/auth_bloc.dart';
+import '../blocs/product/product_bloc.dart';
+import '../delegate/delegates.dart';
 import '../models/user.dart';
 import '../widgets/card_view.dart';
 import '../widgets/skeleton.dart';
@@ -16,23 +18,29 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late ProductBloc productBloc;
   late bool _isLoading;
 
   @override
   void initState() {
     _isLoading = true;
-    Future.delayed(const Duration(seconds: 2), () {
-      setState(() {
-        _isLoading = false;
-      });
-    });
+    // Future.delayed(const Duration(seconds: 2), () {
+    //   setState(() {
+    //     _isLoading = false;
+    //   });
+    // });
+    productBloc = BlocProvider.of<ProductBloc>(context);
+    productBloc.getProducts();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     late AuthBloc authBloc;
+    late ProductBloc productBloc;
     authBloc = BlocProvider.of<AuthBloc>(context);
+    productBloc = BlocProvider.of<ProductBloc>(context);
+    print(productBloc.state.products.length);
     return Scaffold(
         drawer: BlocBuilder<AuthBloc, AuthState>(builder: (_, state) {
           return state.existsUser
@@ -57,7 +65,8 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 IconButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, 'routes');
+                      showSearch(
+                          context: context, delegate: SearchProductDelegate());
                     },
                     icon: const Icon(Icons.search_sharp),
                     iconSize: 30),
@@ -73,23 +82,34 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
         body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
-          child: _isLoading
-              ? ListView.separated(
-                  itemCount: 8,
-                  itemBuilder: (context, index) => const Skeleton(),
-                  separatorBuilder: (context, index) =>
-                      const SizedBox(height: defaultPadding),
-                )
-              : ListView.separated(
-                  itemCount: 8,
-                  itemBuilder: (context, index) => CardView(
-                    image: "assets/images/Image_$index.png",
-                  ),
-                  separatorBuilder: (context, index) =>
-                      const SizedBox(height: defaultPadding),
-                ),
-        ));
+            padding: const EdgeInsets.symmetric(
+                horizontal: defaultPadding, vertical: defaultPadding),
+            child: BlocBuilder<ProductBloc, ProductState>(builder: (_, state) {
+              return state.existsProducts
+                  ? ListView.separated(
+                      itemCount: state.products.length,
+                      itemBuilder: (context, index) => GestureDetector(
+                        onTap: () => Navigator.pushNamed(context, 'details',
+                            arguments: state.products[index]),
+                        child: CardView(
+                          id: state.products[index].id,
+                          price: '${state.products[index].price}',
+                          tag: state.products[index].slug,
+                          title: state.products[index].title,
+                          text: state.products[index].description,
+                          image: '${state.products[index].images}',
+                        ),
+                      ),
+                      separatorBuilder: (context, index) => const Divider(
+                          height: defaultPadding, color: Colors.black87),
+                    )
+                  : ListView.separated(
+                      itemCount: state.products.length,
+                      itemBuilder: (context, index) => const Skeleton(),
+                      separatorBuilder: (context, index) =>
+                          const SizedBox(height: defaultPadding),
+                    );
+            })));
   }
 }
 
