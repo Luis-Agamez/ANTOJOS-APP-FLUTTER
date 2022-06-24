@@ -1,0 +1,139 @@
+      Container(
+                          child: favoriteBloc.state.isFavorite
+                              ? LikeButton(
+                                  isLiked: true,
+                                  onTap: (isLiked) async {
+                                    final id = favoriteBloc.state.idFavorite;
+                                    print(id);
+                                    favoriteBloc.removeFavorite(id);
+                                    return false;
+                                  },
+                                  likeBuilder: (bool isLiked) {
+                                    return Icon(
+                                      Icons.favorite,
+                                      color: isLiked
+                                          ? const Color.fromARGB(
+                                              221, 241, 13, 13)
+                                          : Colors.grey,
+                                      size: 32,
+                                    );
+                                  })
+                              : LikeButton(onTap: (isLiked) async {
+                                  final resp = await favoriteBloc
+                                      .sendFavorite(product.id);
+                                  favoriteBloc.removeFavorit();
+                                  return true;
+                                }, likeBuilder: (bool isLiked) {
+                                  return Icon(
+                                    Icons.favorite,
+                                    color: isLiked
+                                        ? const Color.fromARGB(221, 241, 13, 13)
+                                        : Colors.grey,
+                                    size: 32,
+                                  );
+                                }))
+
+                      // Container(
+                      //   // child: FavoriteHeart(
+                      //   //     productBloc: productBloc,
+                      //   //     favoriteBloc: favoriteBloc,
+                      //   //     id: product.id),
+
+                      //   child: TextButton(
+                      //       onPressed: () async {
+                      //         //TODO Favorites
+
+                      //         final msg =
+                      //             await favoriteBloc.sendFavorite(product.id);
+
+                      //         viewAlert(context, msg, '');
+                      //       },
+                      //       child: const Icon(Icons.heart_broken,
+                      //           color: Color.fromARGB(221, 241, 13, 13))),
+                      //   height: 62,
+                      //   width: 62,
+                      //   decoration: BoxDecoration(
+                      //       border: Border.all(
+                      //         color: const Color.fromARGB(255, 252, 252, 252),
+                      //       ),
+                      //       color: const Color.fromARGB(160, 252, 252, 252),
+                      //       shape: BoxShape.circle),
+                      // )
+
+
+
+
+
+
+
+
+
+
+
+
+class FavoriteHeart extends StatelessWidget {
+  final ProductBloc productBloc;
+  final FavoritesBloc favoriteBloc;
+  final String id;
+  const FavoriteHeart({
+    Key? key,
+    required this.id,
+    required this.productBloc,
+    required this.favoriteBloc,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Widget w = Text('');
+    for (int i = 0; i < productBloc.products.length; i++) {
+      print(productBloc.products[i].id);
+      if (id != productBloc.products[i].id) {
+        return w = Container(
+          child: TextButton(
+              onPressed: () async {
+                //TODO Favorites
+
+                final msg = await favoriteBloc.sendFavorite(id);
+
+                // viewAlert(context, msg, '');
+              },
+              child: const Icon(Icons.heart_broken,
+                  color: Color.fromARGB(221, 241, 13, 13))),
+          height: 62,
+          width: 62,
+          decoration: BoxDecoration(
+              border: Border.all(
+                color: const Color.fromARGB(255, 252, 252, 252),
+              ),
+              color: const Color.fromARGB(160, 252, 252, 252),
+              shape: BoxShape.circle),
+        );
+      } else {
+        print(favoriteBloc.products[i].id);
+        print(id);
+        return w = Container(
+          child: TextButton(
+              onPressed: () async {
+                //TODO Favorites
+
+                final msg = await favoriteBloc.sendFavorite(id);
+
+                // viewAlert(context, msg, '');
+              },
+              child: const Icon(Icons.heart_broken,
+                  color: Color.fromARGB(255, 252, 252, 252))),
+          height: 62,
+          width: 62,
+          decoration: BoxDecoration(
+              border: Border.all(
+                color: const Color.fromARGB(221, 241, 13, 13),
+              ),
+              color: const Color.fromARGB(221, 241, 13, 13),
+              shape: BoxShape.circle),
+        );
+      }
+    }
+
+    return w;
+  }
+}

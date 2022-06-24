@@ -11,3 +11,5 @@ class SetSearchEvent extends SearchEvent {
   final List<Product> products;
   const SetSearchEvent(this.products);
 }
+
+class ClearSearchEvent extends SearchEvent {}

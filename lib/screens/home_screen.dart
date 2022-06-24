@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../blocs/auth/auth_bloc.dart';
+import '../blocs/favorites/favorites_bloc.dart';
+import '../blocs/history/history_bloc.dart';
+import '../blocs/order/order_bloc.dart';
 import '../blocs/product/product_bloc.dart';
 import '../delegate/delegates.dart';
 import '../models/user.dart';
@@ -19,6 +22,9 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late ProductBloc productBloc;
+  late FavoritesBloc favoriteBloc;
+  late HistoryBloc historyBloc;
+  late OrderBloc orderBloc;
   late bool _isLoading;
 
   @override
@@ -30,7 +36,12 @@ class _HomeScreenState extends State<HomeScreen> {
     //   });
     // });
     productBloc = BlocProvider.of<ProductBloc>(context);
+    favoriteBloc = BlocProvider.of<FavoritesBloc>(context);
+    orderBloc = BlocProvider.of<OrderBloc>(context);
     productBloc.getProducts();
+    favoriteBloc.getFavorites();
+    orderBloc.getOrders();
+
     super.initState();
   }
 
@@ -40,6 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
     late ProductBloc productBloc;
     authBloc = BlocProvider.of<AuthBloc>(context);
     productBloc = BlocProvider.of<ProductBloc>(context);
+    final favoriteBloc = BlocProvider.of<FavoritesBloc>(context);
     print(productBloc.state.products.length);
     return Scaffold(
         drawer: BlocBuilder<AuthBloc, AuthState>(builder: (_, state) {
@@ -75,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     onPressed: () {
                       Navigator.pushNamed(context, 'trolley');
                     },
-                    icon: const Icon(Icons.shopping_cart_outlined),
+                    icon: const Icon(Icons.shopping_cart_checkout_outlined),
                     iconSize: 30)
               ],
             )
@@ -89,8 +101,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   ? ListView.separated(
                       itemCount: state.products.length,
                       itemBuilder: (context, index) => GestureDetector(
-                        onTap: () => Navigator.pushNamed(context, 'details',
-                            arguments: state.products[index]),
+                        onTap: () {
+                          favoriteBloc.verifyFavorite(
+                              favoriteBloc.products, state.products[index].id);
+                          Navigator.pushNamed(context, 'details',
+                              arguments: state.products[index]);
+                        },
                         child: CardView(
                           id: state.products[index].id,
                           price: '${state.products[index].price}',

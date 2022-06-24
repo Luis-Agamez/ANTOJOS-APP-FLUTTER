@@ -11,7 +11,7 @@ part 'product_state.dart';
 
 class ProductBloc extends Bloc<ProductEvent, ProductState> {
   late List<Product> products;
-  final _storage = FlutterSecureStorage();
+  final _storage = const FlutterSecureStorage();
   ProductBloc() : super(const ProductState()) {
     on<SetProductEvent>((event, emit) {
       // TODO: implement event handler
@@ -31,5 +31,24 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       products = productResponse.products;
       add(SetProductEvent(products));
     } else {}
+  }
+
+  Future<bool> getFavorite(String id) async {
+    final token = await _storage.read(key: 'token');
+
+    final uri = Uri.parse('${Environment.apiUrl}/product/get');
+
+    final resp = await http.get(uri,
+        headers: {'Content-Type': 'application/json', 'x-token': '$token'});
+    if (resp.statusCode == 200) {
+      final productResponse = ProductResponse.fromJson(resp.body);
+      products = productResponse.products;
+      for (var i = 0; i < products.length; i++) {
+        if (products[i].id == id) print('Verdad');
+        return true;
+      }
+      print('Mentira');
+    } else {}
+    return false;
   }
 }

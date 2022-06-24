@@ -17,6 +17,11 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       // TODO: implement event handler
       emit(state.copyWith(existsProducts: true, products: event.products));
     });
+
+    on<ClearSearchEvent>((event, emit) {
+      // TODO: implement event handler
+      emit(SearchState());
+    });
   }
 
   void getSearch(String tag) async {
@@ -30,7 +35,12 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     if (resp.statusCode == 200) {
       final productResponse = ProductResponse.fromJson(resp.body);
       products = productResponse.products;
-      add(SetSearchEvent(products));
+      print(products.length);
+      if (products.isNotEmpty) {
+        add(SetSearchEvent(products));
+      } else {
+        add(ClearSearchEvent());
+      }
     } else {}
   }
 }

@@ -29,6 +29,7 @@ class CardView extends StatelessWidget {
               height: 120,
               width: 120,
               child: Hero(tag: id, child: Image.network(image)),
+              // Image.network(image),
             ),
             const SizedBox(width: defaultPadding),
             Expanded(
@@ -53,17 +54,23 @@ class CardView extends StatelessWidget {
                         title,
                         style: TextStyle(color: primaryColor),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: defaultPadding / 2),
-                        child: CircleAvatar(
-                          radius: 3,
-                          backgroundColor: grayColor,
+                      // const Padding(
+                      //   padding: EdgeInsets.symmetric(
+                      //       horizontal: defaultPadding / 2),
+                      //   child: CircleAvatar(
+                      //     radius: 3,
+                      //     backgroundColor: grayColor,
+                      //   ),
+                      // ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 5),
+                        child: Text(
+                          '\$ $price',
+                          style: const TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 17),
                         ),
-                      ),
-                      Text(
-                        price,
-                        style: TextStyle(color: grayColor),
                       )
                     ],
                   )

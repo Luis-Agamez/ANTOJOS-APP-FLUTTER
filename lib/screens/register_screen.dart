@@ -1,10 +1,12 @@
 import 'package:antojos_app/widgets/bottom_red.dart';
 import 'package:antojos_app/widgets/label.dart';
 import 'package:antojos_app/widgets/logo.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../blocs/auth/auth_bloc.dart';
+import '../helpers/view_alert.dart';
 import '../widgets/custom_input.dart';
 
 class RegisterScreen extends StatelessWidget {
@@ -24,12 +26,12 @@ class RegisterScreen extends StatelessWidget {
                   const Logo(title: 'Antojos'),
                   _Form(),
                   const Labels(
-                    title: 'Start Session now!',
-                    subTitle: 'You have Account?',
+                    title: 'iniciar Sesion Ahora!',
+                    subTitle: 'Tienes una cuenta?',
                     route: 'login',
                   ),
                   const Text(
-                    'Terminus and Conditions of use ',
+                    'Terminos y condiciones de Uso ',
                     style: TextStyle(fontWeight: FontWeight.w200),
                   )
                 ]),
@@ -88,10 +90,10 @@ class __FormState extends State<_Form> {
                       emailCtrl.text.trim(),
                       passCtrl.text.trim());
                   if (registerOk) {
-                    print('login success');
-                    Navigator.pushReplacementNamed(context, 'home');
+                    print('register success');
+                    Navigator.pushReplacementNamed(context, 'data');
                   } else {
-                    print('login error');
+                    print(registerOk);
                   }
                 }),
           ],

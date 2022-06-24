@@ -10,6 +10,7 @@ class Product {
     required this.size,
     required this.slug,
     required this.tags,
+    required this.idFavorite,
     required this.id,
   });
 
@@ -21,6 +22,7 @@ class Product {
   final List<String> size;
   final String slug;
   final List<String> tags;
+  final String idFavorite;
   final String id;
 
   factory Product.fromJson(String str) => Product.fromMap(json.decode(str));
@@ -36,7 +38,8 @@ class Product {
         size: List<String>.from(json["size"].map((x) => x)),
         slug: json["slug"],
         tags: List<String>.from(json["tags"].map((x) => x)),
-        id: json["id"],
+        idFavorite: json['favorite'],
+        id: json["_id"],
       );
 
   Map<String, dynamic> toMap() => {
@@ -48,6 +51,7 @@ class Product {
         "size": List<dynamic>.from(size.map((x) => x)),
         "slug": slug,
         "tags": List<dynamic>.from(tags.map((x) => x)),
+        "idFavorite": idFavorite,
         "id": id,
       };
 }

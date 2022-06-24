@@ -1,3 +1,4 @@
+import 'package:antojos_app/widgets/config_body.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -20,7 +21,7 @@ class SettingsScreen extends StatelessWidget {
             )),
       ),
       body: const Center(
-        child: Text('SettingsScreen'),
+        child: ConfigBody(),
       ),
     );
   }

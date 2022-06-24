@@ -1,6 +1,7 @@
 import 'package:antojos_app/screens/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 
 import '../blocs/auth/auth_bloc.dart';
 
@@ -13,8 +14,9 @@ class LoadingScreen extends StatelessWidget {
         body: FutureBuilder(
       future: chackLoginState(context),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-        return const Center(
-          child: Text('Loading...'),
+        return Center(
+          child: Lottie.network(
+              'https://assets10.lottiefiles.com/packages/lf20_jmejybvu.json'),
         );
       },
     ));

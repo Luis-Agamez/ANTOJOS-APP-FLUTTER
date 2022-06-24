@@ -63,8 +63,7 @@ class SideMenu extends StatelessWidget {
           },
         ),
         ListTile(
-          leading:
-              Icon(Icons.heart_broken_sharp, size: 30, color: colorFavorite),
+          leading: Icon(Icons.favorite, size: 30, color: colorFavorite),
           title: Text(
             'Favoritos',
             style: TextStyle(fontSize: 16, color: colorFavorite),
