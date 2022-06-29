@@ -17,7 +17,6 @@ class TrolleyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     late bool _isLoading;
-    final authBloc = BlocProvider.of<AuthBloc>(context);
     final trolleyBloc = BlocProvider.of<TrolleyBloc>(context);
     final orderBloc = BlocProvider.of<OrderBloc>(context);
     return Scaffold(
@@ -43,59 +42,65 @@ class TrolleyScreen extends StatelessWidget {
         bottomNavigationBar:
             BlocBuilder<TrolleyBloc, TrolleyState>(builder: (_, state) {
           return Container(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
-            height: 174,
-            decoration: BoxDecoration(
-                borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30)),
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                      offset: const Offset(0, -15),
-                      blurRadius: 20,
-                      color: const Color(0xDDDADADA).withOpacity(0.15))
-                ]),
-            child: Column(
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
+              height: 174,
+              decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30)),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                        offset: const Offset(0, -15),
+                        blurRadius: 20,
+                        color: const Color(0xDDDADADA).withOpacity(0.15))
+                  ]),
+              child: state.total > 0
+                  ? Column(
                       children: [
-                        Text(
-                          'Total :'.toUpperCase(),
-                          style: const TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 15),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Total :'.toUpperCase(),
+                                  style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  '\$ ${state.total}',
+                                  style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                )
+                              ],
+                            ),
+                          ),
                         ),
-                        Text(
-                          '\$ ${state.total}',
-                          style: const TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
+                        const Divider(color: Colors.grey, height: 10),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        BottomRed(
+                          text: 'Comprar ahora',
+                          onPressed: () {
+                            orderBloc.sendOrder(
+                                orderBloc.state.orderItems,
+                                orderBloc.state.subTotal,
+                                orderBloc.state.totals,
+                                orderBloc.state.numberOfItems,
+                                state.listAmount);
+
+                            trolleyBloc.removeItems(trolleyBloc.state.idItems);
+                            Navigator.pushNamed(context, 'confirm');
+                          },
                         )
                       ],
-                    ),
-                  ),
-                ),
-                const Divider(color: Colors.grey, height: 10),
-                const SizedBox(
-                  height: 20,
-                ),
-                BottomRed(
-                  text: 'Comprar ahora',
-                  onPressed: () {
-                    orderBloc.sendOrder(
-                        orderBloc.state.orderItems,
-                        orderBloc.state.subTotal,
-                        orderBloc.state.totals,
-                        orderBloc.state.numberOfItems);
-                    Navigator.pushNamed(context, 'sales');
-                  },
-                )
-              ],
-            ),
-          );
+                    )
+                  : const Text(''));
         }),
         body: FutureBuilder(
             future: trolleyBloc.getTrolley(),
@@ -103,41 +108,51 @@ class TrolleyScreen extends StatelessWidget {
               if (snapshot.data == true) {
                 return BlocBuilder<TrolleyBloc, TrolleyState>(
                   builder: (_, state) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: defaultPadding, vertical: defaultPadding),
-                      child: state.existsProducts
-                          ? ListView.separated(
-                              itemCount: state.products.length,
-                              itemBuilder: (context, index) => GestureDetector(
-                                onTap: () {
-                                  trolleyBloc.orderBloc.clearData();
-                                  Navigator.pushNamed(context, 'detailstrolley',
-                                      arguments: state.products[index]);
-                                  trolleyBloc.sendItem(state.products[index]);
-                                },
-                                child: CardTrolley(
-                                  id: state.products[index].id,
-                                  price: '${state.products[index].price}',
-                                  tag: state.products[index].slug,
-                                  title: state.products[index].title,
-                                  text: state.products[index].description,
-                                  image: '${state.products[index].images}',
-                                  inStock: state.products[index].inStock,
-                                ),
-                              ),
-                              separatorBuilder: (context, index) =>
-                                  const Divider(
-                                      height: defaultPadding,
-                                      color: Colors.black87),
-                            )
-                          : ListView.separated(
-                              itemCount: state.products.length,
-                              itemBuilder: (context, index) => const Skeleton(),
-                              separatorBuilder: (context, index) =>
-                                  const SizedBox(height: defaultPadding),
-                            ),
-                    );
+                    return state.total > 0
+                        ? Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: defaultPadding,
+                                vertical: defaultPadding),
+                            child: state.existsProducts
+                                ? ListView.separated(
+                                    itemCount: state.products.length,
+                                    itemBuilder: (context, index) =>
+                                        GestureDetector(
+                                      onTap: () {
+                                        trolleyBloc.orderBloc.clearData();
+                                        Navigator.pushNamed(
+                                            context, 'detailstrolley',
+                                            arguments: state.products[index]);
+                                        trolleyBloc
+                                            .sendItem(state.products[index]);
+                                      },
+                                      child: CardTrolley(
+                                        id: state.products[index].id,
+                                        price: '${state.products[index].price}',
+                                        tag: state.products[index].slug,
+                                        title: state.products[index].title,
+                                        text: state.products[index].description,
+                                        image:
+                                            '${state.products[index].images}',
+                                        inStock: state.products[index].inStock,
+                                      ),
+                                    ),
+                                    separatorBuilder: (context, index) =>
+                                        const Divider(
+                                            height: defaultPadding,
+                                            color: Colors.black87),
+                                  )
+                                : ListView.separated(
+                                    itemCount: state.products.length,
+                                    itemBuilder: (context, index) =>
+                                        const Skeleton(),
+                                    separatorBuilder: (context, index) =>
+                                        const SizedBox(height: defaultPadding),
+                                  ),
+                          )
+                        : Center(
+                            child: Lottie.network(
+                                'https://assets9.lottiefiles.com/packages/lf20_L4w8VH.json'));
                   },
                 );
               } else {

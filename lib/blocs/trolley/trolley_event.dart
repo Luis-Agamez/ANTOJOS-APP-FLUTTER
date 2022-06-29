@@ -21,3 +21,17 @@ class SetItemsEvent extends TrolleyEvent {
   final double items;
   const SetItemsEvent(this.items);
 }
+
+class CleanEvent extends TrolleyEvent {}
+
+class SetIdItemsEvent extends TrolleyEvent {
+  final List<String> idItems;
+  const SetIdItemsEvent(this.idItems);
+}
+
+class ClearIdItemsEvent extends TrolleyEvent {}
+
+class SetListAmountEvent extends TrolleyEvent {
+  final List<int> listAmount;
+  const SetListAmountEvent(this.listAmount);
+}

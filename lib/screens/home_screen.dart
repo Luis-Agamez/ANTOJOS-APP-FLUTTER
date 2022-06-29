@@ -8,6 +8,7 @@ import '../blocs/favorites/favorites_bloc.dart';
 import '../blocs/history/history_bloc.dart';
 import '../blocs/order/order_bloc.dart';
 import '../blocs/product/product_bloc.dart';
+import '../blocs/trolley/trolley_bloc.dart';
 import '../delegate/delegates.dart';
 import '../models/user.dart';
 import '../widgets/card_view.dart';
@@ -25,6 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
   late FavoritesBloc favoriteBloc;
   late HistoryBloc historyBloc;
   late OrderBloc orderBloc;
+  late TrolleyBloc trolleyBloc;
   late bool _isLoading;
 
   @override
@@ -38,6 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
     productBloc = BlocProvider.of<ProductBloc>(context);
     favoriteBloc = BlocProvider.of<FavoritesBloc>(context);
     orderBloc = BlocProvider.of<OrderBloc>(context);
+    trolleyBloc = BlocProvider.of<TrolleyBloc>(context);
     productBloc.getProducts();
     favoriteBloc.getFavorites();
     orderBloc.getOrders();
@@ -104,6 +107,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         onTap: () {
                           favoriteBloc.verifyFavorite(
                               favoriteBloc.products, state.products[index].id);
+                          trolleyBloc.orderBloc.clearData();
+                          trolleyBloc.sendItem(state.products[index]);
+                          trolleyBloc.clearData();
                           Navigator.pushNamed(context, 'details',
                               arguments: state.products[index]);
                         },

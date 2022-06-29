@@ -77,7 +77,7 @@ class SalesScreen extends StatelessWidget {
               } else {
                 return Center(
                     child: Lottie.network(
-                        'https://assets9.lottiefiles.com/packages/lf20_L4w8VH.json'));
+                        'https://assets6.lottiefiles.com/packages/lf20_a20g35gn.json'));
               }
             }));
   }

@@ -19,7 +19,7 @@ class CardTrolley extends StatelessWidget {
   final String title;
   final String tag;
   final String price;
-  final int inStock;
+  final String inStock;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,12 @@ class CardTrolley extends StatelessWidget {
             SizedBox(
               height: 120,
               width: 120,
-              child: Hero(tag: id, child: Image.network(image)),
+              child: Hero(
+                  tag: id,
+                  child: FadeInImage(
+                    image: NetworkImage(image),
+                    placeholder: const AssetImage('assets/gifts/hamburger.gif'),
+                  )),
               // Image.network(image),
             ),
             const SizedBox(width: defaultPadding),

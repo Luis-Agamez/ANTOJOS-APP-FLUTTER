@@ -8,10 +8,12 @@ import 'blocs/order/order_bloc.dart';
 import 'blocs/product/product_bloc.dart';
 import 'blocs/search/search_bloc.dart';
 import 'blocs/trolley/trolley_bloc.dart';
+import 'blocs/user/user_bloc.dart';
 
 void main() {
   runApp(MultiBlocProvider(providers: [
     BlocProvider(create: (context) => AuthBloc()),
+    BlocProvider(create: (context) => UserBloc()),
     BlocProvider(create: (context) => ProductBloc()),
     BlocProvider(create: (context) => SearchBloc()),
     BlocProvider(create: (context) => FavoritesBloc()),

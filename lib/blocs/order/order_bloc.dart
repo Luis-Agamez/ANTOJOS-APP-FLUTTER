@@ -35,8 +35,12 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       emit(state.copyWith(numberOfItems: event.numberOfItems));
     }));
 
+    on<SetTotal>(((event, emit) {
+      emit(state.copyWith(total: event.total));
+    }));
+
     on<CleanerData>(((event, emit) {
-      emit(const OrderState());
+      emit(state.copyWith(total: 0, totals: 0, numberOfItems: 0));
     }));
   }
 
@@ -84,13 +88,14 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
   }
 
   Future<bool> sendOrder(List<OderItem> orderItems, List<int> subTotal,
-      int totals, int numberOfItems) async {
+      int totals, int numberOfItems, List<int> listAmount) async {
     final token = await _storage.read(key: 'token');
     final data = {
       'oderItems': orderItems,
       'subTotal': subTotal,
       "numberOfItems": numberOfItems,
       "totals": totals,
+      "amount": listAmount
     };
     final uri = Uri.parse('${Environment.apiUrl}/order/new');
     final resp = await http.post(
@@ -105,5 +110,35 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     } else {
       return false;
     }
+  }
+
+  Future<bool> sendOrderItem(List<OderItem> orderItems, int subTotal,
+      int numberOfItems, int total, int amount) async {
+    final token = await _storage.read(key: 'token');
+    final data = {
+      'oderItems': orderItems,
+      'subTotal': subTotal,
+      "numberOfItems": numberOfItems,
+      "totals": total,
+      "amount": [amount]
+    };
+    final uri = Uri.parse('${Environment.apiUrl}/order/new');
+    final resp = await http.post(
+      uri,
+      body: jsonEncode(data),
+      headers: {'Content-Type': 'application/json', 'x-token': '$token'},
+    );
+    print(resp.body);
+
+    if (resp.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  void setTotalMid(int total) {
+    print(total);
+    add(SetTotal(total));
   }
 }

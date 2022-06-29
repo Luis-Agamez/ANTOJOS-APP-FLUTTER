@@ -33,3 +33,8 @@ class SetNumberOfItems extends OrderEvent {
 }
 
 class CleanerData extends OrderEvent {}
+
+class SetTotal extends OrderEvent {
+  final int total;
+  const SetTotal(this.total);
+}

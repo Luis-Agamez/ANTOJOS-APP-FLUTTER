@@ -142,13 +142,14 @@ class DetailsTrolley extends StatelessWidget {
                               borderRadius: BorderRadius.circular(8),
                             ))),
                         onPressed: () {
-                          trolleyBloc.orderBloc.sendOrder(
+                          trolleyBloc.orderBloc.sendOrderItem(
                               trolleyBloc.orderBloc.state.orderItems,
-                              trolleyBloc.orderBloc.state.subTotal,
-                              trolleyBloc.orderBloc.state.totals,
-                              trolleyBloc.orderBloc.state.numberOfItems);
+                              product.price,
+                              trolleyBloc.orderBloc.state.orderItems.length,
+                              product.price,
+                              int.parse(product.inStock));
                           trolleyBloc.removeItem(product.idFavorite);
-                          Navigator.pushNamed(context, 'sales');
+                          Navigator.pushNamed(context, 'confirm');
                         },
                         child: Text(
                           'Comprar Ahora'.toUpperCase(),

@@ -1,3 +1,4 @@
+export 'package:antojos_app/screens/confirm_screen.dart';
 export 'package:antojos_app/screens/data_screen.dart';
 export 'package:antojos_app/screens/login_screen.dart';
 export 'package:antojos_app/screens/register_screen.dart';

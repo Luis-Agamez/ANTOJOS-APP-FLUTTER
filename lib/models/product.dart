@@ -7,6 +7,7 @@ class Product {
     this.images,
     required this.inStock,
     required this.price,
+    required this.mid,
     required this.size,
     required this.slug,
     required this.tags,
@@ -17,8 +18,9 @@ class Product {
   final String title;
   final String description;
   final String? images;
-  final int inStock;
+  final String inStock;
   final int price;
+  final bool mid;
   final List<String> size;
   final String slug;
   final List<String> tags;
@@ -33,8 +35,9 @@ class Product {
         title: json["title"],
         description: json["description"],
         images: json["images"],
-        inStock: json["inStock"],
+        inStock: json["inStock"].toString(),
         price: json["price"],
+        mid: json["mid"],
         size: List<String>.from(json["size"].map((x) => x)),
         slug: json["slug"],
         tags: List<String>.from(json["tags"].map((x) => x)),
@@ -53,5 +56,6 @@ class Product {
         "tags": List<dynamic>.from(tags.map((x) => x)),
         "idFavorite": idFavorite,
         "id": id,
+        "mid": mid
       };
 }

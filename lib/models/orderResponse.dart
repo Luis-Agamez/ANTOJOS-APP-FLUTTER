@@ -34,6 +34,7 @@ class Order {
     required this.oderItems,
     required this.subTotal,
     required this.totals,
+    required this.amount,
     required this.preparing,
     required this.received,
     required this.ready,
@@ -48,6 +49,7 @@ class Order {
   final List<OderItem> oderItems;
   final List<int> subTotal;
   final int totals;
+  final List<int> amount;
   final bool preparing;
   final bool received;
   final bool ready;
@@ -67,6 +69,7 @@ class Order {
             json["oderItems"].map((x) => OderItem.fromMap(x))),
         subTotal: List<int>.from(json["subTotal"].map((x) => x)),
         totals: json["totals"],
+        amount: List<int>.from(json["amount"].map((x) => x)),
         preparing: json["preparing"],
         received: json["received"],
         ready: json["ready"],
@@ -82,6 +85,7 @@ class Order {
         "oderItems": List<dynamic>.from(oderItems.map((x) => x.toMap())),
         "subTotal": List<dynamic>.from(subTotal.map((x) => x)),
         "totals": totals,
+        "amount": List<dynamic>.from(amount.map((x) => x)),
         "preparing": preparing,
         "received": received,
         "ready": ready,

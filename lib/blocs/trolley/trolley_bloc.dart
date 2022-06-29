@@ -29,10 +29,21 @@ class TrolleyBloc extends Bloc<TrolleyEvent, TrolleyState> {
     on<SetItemsEvent>((event, emit) {
       emit(state.copyWith(items: event.items));
     });
+    on<SetIdItemsEvent>((event, emit) {
+      emit(state.copyWith(idItems: event.idItems));
+    });
+
+    on<SetListAmountEvent>((event, emit) {
+      emit(state.copyWith(listAmount: event.listAmount));
+    });
+    on<CleanEvent>((event, emit) {
+      emit(const TrolleyState());
+    });
   }
 
   Future<bool> getTrolley() async {
     final token = await _storage.read(key: 'token');
+    late List<String> idItems = [];
 
     final uri = Uri.parse('${Environment.apiUrl}/trolley/get');
 
@@ -41,6 +52,7 @@ class TrolleyBloc extends Bloc<TrolleyEvent, TrolleyState> {
 
     if (resp.statusCode == 200) {
       late List<OderItem> orderItems = [];
+      late List<int> listAmount = [];
       late List<int> sTotal = [];
       int total = 0;
       final productResponse = ProductResponse.fromJson(resp.body);
@@ -49,8 +61,7 @@ class TrolleyBloc extends Bloc<TrolleyEvent, TrolleyState> {
 
       for (int i = 0; i < products.length; i++) {
         total += products[i].price;
-
-        // print(total);
+        listAmount.add(int.parse(products[i].inStock));
         final data = {
           'title': products[i].title,
           "description": products[i].description,
@@ -63,13 +74,15 @@ class TrolleyBloc extends Bloc<TrolleyEvent, TrolleyState> {
         final item = OderItem.fromJson(it);
 
         orderItems.add(item);
+        idItems.add(products[i].idFavorite);
         sTotal.add(products[i].price);
 
         orderBloc.setData(orderItems, sTotal, total, products.length);
       }
 
+      add(SetIdItemsEvent(idItems));
       add(SetTotalEvent(total));
-
+      setListAmount(listAmount);
       return true;
     } else {}
 
@@ -95,12 +108,11 @@ class TrolleyBloc extends Bloc<TrolleyEvent, TrolleyState> {
 
     orderItems.add(item);
     sTotal.add(product.price);
-
     orderBloc.setData(orderItems, sTotal, total, products.length);
   }
 
-  Future<String> sendFavorite(double items, int price, String pid) async {
-    final total = items * price;
+  Future<String> sendFavorite(int items, int price, String pid) async {
+    final total = price;
     final token = await _storage.read(key: 'token');
     final data = {'items': items, 'total': total, 'pid': pid};
 
@@ -119,6 +131,20 @@ class TrolleyBloc extends Bloc<TrolleyEvent, TrolleyState> {
     }
   }
 
+  void removeItems(List<String> idItems) async {
+    final token = await _storage.read(key: 'token');
+    final data = {'idOfItems': idItems};
+
+    final uri = Uri.parse('${Environment.apiUrl}/trolley/delete');
+    final resp = await http.post(
+      uri,
+      body: jsonEncode(data),
+      headers: {'Content-Type': 'application/json', 'x-token': '$token'},
+    );
+    print(resp.body);
+    // final body = AddFavoritesResponse.fromJson(resp.body);
+  }
+
   void setItems(double items) {
     add(SetItemsEvent(items));
   }
@@ -134,5 +160,21 @@ class TrolleyBloc extends Bloc<TrolleyEvent, TrolleyState> {
     print(resp.body);
     // if (resp.statusCode == 200) {
     // } else {}
+  }
+
+  void setListAmount(List<int> listAmount) {
+    add(SetListAmountEvent(listAmount));
+  }
+
+  void clearData() {
+    add(CleanEvent());
+  }
+
+  bool isOlder(int total) {
+    if (total <= 0) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

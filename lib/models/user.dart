@@ -21,6 +21,9 @@ class User {
     required this.email,
     this.address,
     this.phoneNumber,
+    this.city,
+    this.district,
+    this.reference,
     required this.uid,
   });
 
@@ -29,6 +32,9 @@ class User {
   final String email;
   final String? address;
   final String? phoneNumber;
+  final String? city;
+  final String? district;
+  final String? reference;
   final String uid;
 
   factory User.fromJson(String str) => User.fromMap(json.decode(str));
@@ -41,6 +47,9 @@ class User {
         email: json["email"],
         address: json["address"],
         phoneNumber: json["phoneNumber"],
+        city: json["city"],
+        district: json["district"],
+        reference: json["reference"],
         uid: json["uid"],
       );
 
@@ -50,6 +59,9 @@ class User {
         "email": email,
         "address": address,
         "phoneNumber": phoneNumber,
+        "city": city,
+        "district": district,
+        "reference": reference,
         "uid": uid,
       };
 }

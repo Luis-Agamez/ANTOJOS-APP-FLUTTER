@@ -31,9 +31,9 @@ class CardOrder extends StatelessWidget {
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text('Numero de Productos '),
+                          const Text('Productos refenciados:'),
                           Text(
-                            ' ${order.oderItems.length}',
+                            ' ${order.numberOfItems}',
                             style: const TextStyle(
                                 fontSize: 17, fontWeight: FontWeight.bold),
                           ),
@@ -44,7 +44,7 @@ class CardOrder extends StatelessWidget {
                       Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text('Subtotal'),
+                            const Text('Subtotal :'),
                             Row(
                                 children: order.subTotal
                                     .map((item) => Row(
@@ -60,7 +60,7 @@ class CardOrder extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             const Text(
-                              'Total',
+                              'Total :',
                               style: TextStyle(fontSize: 16),
                             ),
                             Text(

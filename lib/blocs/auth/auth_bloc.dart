@@ -7,6 +7,8 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
 import '../../global/environment.dart';
+import '../../models/data_response.dart';
+import '../../models/pass_response.dart';
 import '../../models/user.dart';
 
 part 'auth_event.dart';
@@ -48,24 +50,94 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  Future register(String name, String email, String password) async {
-    final data = {'name': name, 'email': email, 'password': password};
+  Future register(
+      String name,
+      String lastName,
+      String email,
+      String password,
+      String phoneNumber,
+      String city,
+      String district,
+      String reference) async {
+    final data = {
+      'name': name,
+      'lastName': lastName,
+      'email': email,
+      'password': password,
+      'phoneNumber': phoneNumber,
+      'city': city,
+      'district': district,
+      'reference': reference
+    };
 
     final uri = Uri.parse('${Environment.apiUrl}/auth/new');
 
     final resp = await http.post(uri,
         body: jsonEncode(data), headers: {'Content-Type': 'application/json'});
-    print(resp);
+    print(resp.body);
     if (resp.statusCode == 200) {
       final loginResponse = LoginResponse.fromJson(resp.body);
       user = loginResponse.user;
-      print(user);
       await _savedToken(loginResponse.token);
       add(ActiveUser(user));
       return true;
     } else {
       final resBody = jsonDecode(resp.body);
       return resBody['ok'];
+    }
+  }
+
+  Future updatedLocation(String phoneNumber, String city, String district,
+      String reference) async {
+    final token = await _storage.read(key: 'token');
+    final data = {
+      'phoneNumber': phoneNumber,
+      'city': city,
+      'district': district,
+      'reference': reference
+    };
+
+    final uri = Uri.parse('${Environment.apiUrl}/auth/user/config');
+
+    final resp = await http.post(uri,
+        body: jsonEncode(data),
+        headers: {'Content-Type': 'application/json', 'x-token': '$token'});
+    print(resp.body);
+    if (resp.statusCode == 200) {
+      print(resp.body);
+      final loginResponse = DataResponse.fromJson(resp.body);
+      user = loginResponse.user;
+      add(ActiveUser(user));
+      print(user);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future updatedData(String name, String lastName, String email) async {
+    final token = await _storage.read(key: 'token');
+    final data = {
+      'name': name,
+      'lastName': lastName,
+      'email': email,
+    };
+
+    final uri = Uri.parse('${Environment.apiUrl}/auth/user/config');
+
+    final resp = await http.post(uri,
+        body: jsonEncode(data),
+        headers: {'Content-Type': 'application/json', 'x-token': '$token'});
+    print(resp.body);
+    if (resp.statusCode == 200) {
+      print(resp.body);
+      final loginResponse = DataResponse.fromJson(resp.body);
+      user = loginResponse.user;
+      add(ActiveUser(user));
+      print(user);
+      return true;
+    } else {
+      return false;
     }
   }
 
@@ -98,5 +170,23 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future _savedToken(String token) async {
     // Write value
     return await _storage.write(key: 'token', value: token);
+  }
+
+  Future<bool> passUpdated(String passOld, String passNew) async {
+    final token = await _storage.read(key: 'token');
+    final data = {'pass': passOld, 'newpass': passNew};
+
+    final uri = Uri.parse('${Environment.apiUrl}/auth/user/pass');
+
+    final resp = await http.post(uri,
+        body: jsonEncode(data),
+        headers: {'Content-Type': 'application/json', 'x-token': '$token'});
+    final loginResponse = PassResponse.fromJson(resp.body);
+    print(resp.body);
+    if (loginResponse.ok == true) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ConfigBody extends StatelessWidget {
   const ConfigBody({Key? key}) : super(key: key);
@@ -15,20 +16,29 @@ class ConfigBody extends StatelessWidget {
           height: 20,
         ),
         ProfileMenu(
+          onPressed: () {
+            Navigator.pushNamed(context, 'config');
+          },
           icon: "assets/icons/User Icon.svg",
-          text: 'Editar Nombre'.toUpperCase(),
-        ),
-        ProfileMenu(
-          icon: "assets/icons/Mail.svg",
-          text: 'Editar Correo'.toUpperCase(),
+          text: 'Editar Datos de Usuario',
         ),
         ProfileMenu(
           icon: "assets/icons/Location point.svg",
-          text: 'Editar Direccion'.toUpperCase(),
+          text: 'Editar Datos de Ubicacion',
+          onPressed: () {
+            Navigator.pushNamed(context, 'userconfig');
+          },
         ),
+        // ProfileMenu(
+        //   icon: "assets/icons/Location point.svg",
+        //   text: 'Editar Direccion',
+        // ),
         ProfileMenu(
           icon: "assets/icons/Lock.svg",
-          text: 'Cambiar Contraseña'.toUpperCase(),
+          text: 'Cambiar Contraseña',
+          onPressed: () {
+            Navigator.pushNamed(context, 'passconfig');
+          },
         )
       ],
     );
@@ -52,12 +62,14 @@ class ProfileMenu extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       child: TextButton(
           style: ButtonStyle(
+              overlayColor: MaterialStateProperty.all(
+                  const Color.fromARGB(221, 241, 13, 13)),
               shape: MaterialStateProperty.all(RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15))),
               padding: MaterialStateProperty.all(const EdgeInsets.all(20)),
               backgroundColor:
                   MaterialStateProperty.all(const Color(0xFFF5F6F9))),
-          onPressed: () {},
+          onPressed: onPressed,
           child: Row(children: <Widget>[
             SvgPicture.asset(
               icon,
@@ -70,11 +82,17 @@ class ProfileMenu extends StatelessWidget {
             Expanded(
                 child: Text(
               text,
-              style: const TextStyle(color: Colors.grey, fontSize: 20),
+              style: GoogleFonts.lobster(
+                textStyle: const TextStyle(
+                  letterSpacing: 3,
+                  fontSize: 22,
+                  color: Color.fromARGB(190, 14, 1, 1),
+                ),
+              ),
             )),
-            Icon(
+            const Icon(
               Icons.arrow_forward_ios,
-              color: Colors.grey[800],
+              color: Color.fromARGB(190, 14, 1, 1),
             )
           ])),
     );

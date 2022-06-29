@@ -34,7 +34,7 @@ class DetailsOrder extends StatelessWidget {
               const SizedBox(height: 10),
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 const Text(
-                  'Pedido No :',
+                  'Nº Pedido:',
                   style: TextStyle(fontSize: 16),
                 ),
                 Text(
@@ -45,39 +45,16 @@ class DetailsOrder extends StatelessWidget {
               const SizedBox(height: 10),
               Row(children: const [
                 Text(
-                  'Pediste',
+                  'Detalles',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 Text('')
               ]),
               const Divider(height: 2, color: Colors.black87),
               const SizedBox(height: 10),
-              Container(
-                width: double.infinity,
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: order.oderItems
-                        .map((e) => Column(
-                              children: [
-                                Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(e.title,
-                                          style: const TextStyle(fontSize: 16)),
-                                      Text(e.price,
-                                          style: const TextStyle(fontSize: 16)),
-                                    ]),
-                                const SizedBox(
-                                  height: 10,
-                                )
-                              ],
-                            ))
-                        .toList()),
-              ),
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 const Text(
-                  'Cantidad de productos:',
+                  'Productos referenciados',
                   style: TextStyle(fontSize: 16),
                 ),
                 Text(
@@ -86,6 +63,51 @@ class DetailsOrder extends StatelessWidget {
                 )
               ]),
               const SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 5),
+                child: ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  physics: const BouncingScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: order.oderItems.length,
+                  itemBuilder: (_, i) => Column(
+                    children: [
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text('${order.amount[i]}',
+                                style: const TextStyle(fontSize: 16)),
+                            const SizedBox(width: 15),
+                            ClipRRect(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(20)),
+                              child: SizedBox(
+                                height: 80,
+                                width: 80,
+                                child: FadeInImage(
+                                  image: NetworkImage(order.oderItems[i].img),
+                                  placeholder: const AssetImage(
+                                      'assets/gifts/hamburger.gif'),
+                                ),
+                                // Image.network(image),
+                              ),
+                            ),
+                            const SizedBox(width: 15),
+                            Text(order.oderItems[i].title,
+                                style: const TextStyle(fontSize: 16)),
+                            const SizedBox(width: 10),
+                            Container(
+                              child: order.numberOfItems == 1
+                                  ? Text('${order.totals}',
+                                      style: const TextStyle(fontSize: 16))
+                                  : Text(order.oderItems[i].price,
+                                      style: const TextStyle(fontSize: 16)),
+                            ),
+                          ]),
+                    ],
+                  ),
+                ),
+              ),
               const Divider(height: 2, color: Colors.black87),
               const SizedBox(
                 height: 10,
@@ -125,13 +147,15 @@ class DetailsOrder extends StatelessWidget {
                   'Pedido Entegado:',
                   style: TextStyle(fontSize: 16),
                 ),
-                CheckOrder(order: order, status: order.delivered)
+                CheckOrder(order: order, status: order.delivered),
               ]),
+              SizedBox(height: 20)
             ],
           ),
         ),
       ),
       bottomNavigationBar: Container(
+        width: double.infinity,
         decoration: BoxDecoration(
             borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(30), topRight: Radius.circular(30)),
@@ -142,7 +166,7 @@ class DetailsOrder extends StatelessWidget {
                   blurRadius: 20,
                   color: const Color(0xDDDADADA).withOpacity(0.15))
             ]),
-        height: 320,
+        height: 280,
         margin: const EdgeInsets.symmetric(horizontal: 4),
         padding: const EdgeInsets.all(20),
         child: SingleChildScrollView(
@@ -150,11 +174,12 @@ class DetailsOrder extends StatelessWidget {
             // const _ShopeName(),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    flex: 1,
-                    child: Padding(
+              child: Container(
+                width: double.infinity,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 5),
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -176,7 +201,9 @@ class DetailsOrder extends StatelessWidget {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            const Text(''),
+                                            const SizedBox(
+                                              width: 260,
+                                            ),
                                             Text(
                                               '$e',
                                               style:
@@ -184,11 +211,10 @@ class DetailsOrder extends StatelessWidget {
                                             ),
                                           ],
                                         ),
-                                        const Divider(
-                                            height: 5, color: Colors.black87),
                                       ]))
                                   .toList(),
                             ),
+                            const Divider(height: 5, color: Colors.black87),
                             const SizedBox(height: 10),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -198,6 +224,9 @@ class DetailsOrder extends StatelessWidget {
                                   style: const TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold),
+                                ),
+                                const SizedBox(
+                                  width: 160,
                                 ),
                                 Text(
                                   '\$ ${order.totals}',
@@ -210,8 +239,8 @@ class DetailsOrder extends StatelessWidget {
                             const Divider(color: Colors.grey, height: 10),
                           ]),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             Padding(
@@ -220,62 +249,56 @@ class DetailsOrder extends StatelessWidget {
                     ? Row(
                         children: [
                           const SizedBox(width: 20),
-                          Expanded(
-                            flex: 1,
-                            child: SizedBox(
-                              height: 50,
-                              child: TextButton(
-                                  style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                        Color.fromARGB(221, 173, 170, 170),
-                                      ),
-                                      shape: MaterialStateProperty.all<
-                                              RoundedRectangleBorder>(
-                                          RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(8),
-                                      ))),
-                                  onPressed: null,
-                                  child: Text(
-                                    'Cancelar pedido'.toUpperCase(),
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white),
-                                  )),
-                            ),
+                          SizedBox(
+                            width: 320,
+                            height: 50,
+                            child: TextButton(
+                                style: ButtonStyle(
+                                    backgroundColor: MaterialStateProperty.all(
+                                      Color.fromARGB(221, 173, 170, 170),
+                                    ),
+                                    shape: MaterialStateProperty.all<
+                                            RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ))),
+                                onPressed: null,
+                                child: Text(
+                                  'Cancelar pedido'.toUpperCase(),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
+                                )),
                           ),
                         ],
                       )
                     : Row(
                         children: [
                           const SizedBox(width: 20),
-                          Expanded(
-                            flex: 1,
-                            child: SizedBox(
-                              height: 50,
-                              child: TextButton(
-                                  style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                        const Color.fromARGB(221, 241, 13, 13),
-                                      ),
-                                      shape: MaterialStateProperty.all<
-                                              RoundedRectangleBorder>(
-                                          RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(8),
-                                      ))),
-                                  onPressed: () {
-                                    // trolleyBloc.removeItem(product.idFavorite);
-                                    Navigator.pushNamed(context, 'home');
-                                    orderBloc.removeItem(order.id);
-                                  },
-                                  child: Text(
-                                    'Cancelar pedido'.toUpperCase(),
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white),
-                                  )),
-                            ),
+                          SizedBox(
+                            width: 320,
+                            height: 50,
+                            child: TextButton(
+                                style: ButtonStyle(
+                                    backgroundColor: MaterialStateProperty.all(
+                                      const Color.fromARGB(221, 241, 13, 13),
+                                    ),
+                                    shape: MaterialStateProperty.all<
+                                            RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ))),
+                                onPressed: () {
+                                  // trolleyBloc.removeItem(product.idFavorite);
+                                  Navigator.pushNamed(context, 'home');
+                                  orderBloc.removeItem(order.id);
+                                },
+                                child: Text(
+                                  'Cancelar pedido'.toUpperCase(),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
+                                )),
                           ),
                         ],
                       ))

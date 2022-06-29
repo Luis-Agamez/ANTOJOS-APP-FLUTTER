@@ -28,7 +28,12 @@ class CardView extends StatelessWidget {
             SizedBox(
               height: 120,
               width: 120,
-              child: Hero(tag: id, child: Image.network(image)),
+              child: Hero(
+                  tag: id,
+                  child: FadeInImage(
+                    image: NetworkImage(image),
+                    placeholder: const AssetImage('assets/gifts/hamburger.gif'),
+                  )),
               // Image.network(image),
             ),
             const SizedBox(width: defaultPadding),

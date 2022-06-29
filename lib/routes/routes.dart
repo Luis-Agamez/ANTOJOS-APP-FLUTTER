@@ -2,6 +2,7 @@ import 'package:antojos_app/screens/details_trolley.dart';
 import 'package:antojos_app/screens/screens.dart';
 import 'package:flutter/material.dart';
 
+import '../screens/config/screens.dart';
 import '../screens/details_order.dart';
 
 final Map<String, Widget Function(BuildContext)> appRoutes = {
@@ -20,4 +21,8 @@ final Map<String, Widget Function(BuildContext)> appRoutes = {
   'detailstrolley': (_) => const DetailsTrolley(),
   'data': (_) => const DataScreen(),
   'detailsorder': (_) => const DetailsOrder(),
+  'confirm': (_) => const ConfirmScreen(),
+  'userconfig': (_) => const UserScreen(),
+  'passconfig': (_) => const PassScreen(),
+  'config': (_) => const ConfigScreen()
 };

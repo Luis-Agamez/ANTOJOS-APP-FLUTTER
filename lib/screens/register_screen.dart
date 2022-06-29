@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../blocs/auth/auth_bloc.dart';
-import '../helpers/view_alert.dart';
+import '../blocs/user/user_bloc.dart';
 import '../widgets/custom_input.dart';
 
 class RegisterScreen extends StatelessWidget {
@@ -51,11 +51,12 @@ class __FormState extends State<_Form> {
   final emailCtrl = TextEditingController();
   final passCtrl = TextEditingController();
   final nameCtrl = TextEditingController();
+  final lastNameCtrl = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    late AuthBloc authBloc;
-    authBloc = BlocProvider.of<AuthBloc>(context);
+    late UserBloc userBloc;
+    userBloc = BlocProvider.of<UserBloc>(context);
     return Container(
         margin: const EdgeInsets.only(top: 40),
         padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -63,9 +64,14 @@ class __FormState extends State<_Form> {
           children: <Widget>[
             CustomInput(
                 icon: Icons.perm_identity,
-                placeholder: 'Name',
+                placeholder: 'Primer Nombre',
                 keyboardType: TextInputType.emailAddress,
                 textController: nameCtrl),
+            CustomInput(
+                icon: Icons.perm_identity,
+                placeholder: 'Primer Apellido',
+                keyboardType: TextInputType.emailAddress,
+                textController: lastNameCtrl),
             CustomInput(
                 icon: Icons.email_outlined,
                 placeholder: 'Email',
@@ -80,21 +86,13 @@ class __FormState extends State<_Form> {
             BottomRed(
                 text: 'Register',
                 onPressed: () async {
-                  print(nameCtrl.text);
-                  print(emailCtrl.text);
-                  print(passCtrl.text);
+                  final state = userBloc.state;
+
+                  userBloc.setData(nameCtrl.text.trim(), emailCtrl.text.trim(),
+                      lastNameCtrl.text.trim(), passCtrl.text.trim());
 
                   FocusScope.of(context).unfocus();
-                  final registerOk = await authBloc.register(
-                      nameCtrl.text.trim(),
-                      emailCtrl.text.trim(),
-                      passCtrl.text.trim());
-                  if (registerOk) {
-                    print('register success');
-                    Navigator.pushReplacementNamed(context, 'data');
-                  } else {
-                    print(registerOk);
-                  }
+                  Navigator.pushReplacementNamed(context, 'data');
                 }),
           ],
         ));
