@@ -2,7 +2,7 @@ part of 'trolley_bloc.dart';
 
 class TrolleyState extends Equatable {
   final bool existsProducts;
-  final List<Product> products;
+  final List<Response> products;
   final List<int> listAmount;
   final List<String> idItems;
   final double items;
@@ -22,7 +22,7 @@ class TrolleyState extends Equatable {
           {bool? existsProducts,
           int? total,
           double? items,
-          List<Product>? products,
+          List<Response>? products,
           List<String>? idItems,
           List<int>? listAmount}) =>
       TrolleyState(

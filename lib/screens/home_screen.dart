@@ -10,6 +10,7 @@ import '../blocs/order/order_bloc.dart';
 import '../blocs/product/product_bloc.dart';
 import '../blocs/trolley/trolley_bloc.dart';
 import '../delegate/delegates.dart';
+import '../models/trolley_response.dart';
 import '../models/user.dart';
 import '../widgets/card_view.dart';
 import '../widgets/skeleton.dart';
@@ -105,10 +106,15 @@ class _HomeScreenState extends State<HomeScreen> {
                       itemCount: state.products.length,
                       itemBuilder: (context, index) => GestureDetector(
                         onTap: () {
+                          final product = state.products[index];
                           favoriteBloc.verifyFavorite(
                               favoriteBloc.products, state.products[index].id);
                           trolleyBloc.orderBloc.clearData();
-                          trolleyBloc.sendItem(state.products[index]);
+                          trolleyBloc.sendItem(
+                              product.title,
+                              product.description,
+                              product.images,
+                              product.price);
                           trolleyBloc.clearData();
                           Navigator.pushNamed(context, 'details',
                               arguments: state.products[index]);

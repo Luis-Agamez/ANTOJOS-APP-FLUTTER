@@ -7,11 +7,23 @@ decoration(String labelText, String hintText) {
       hintText: hintText,
       floatingLabelBehavior: FloatingLabelBehavior.always,
       contentPadding: const EdgeInsets.symmetric(horizontal: 45, vertical: 20),
+      disabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20),
+          gapPadding: 10,
+          borderSide: const BorderSide(color: Colors.black87)),
       enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20),
           gapPadding: 10,
           borderSide: const BorderSide(color: Colors.black87)),
       focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20),
+          gapPadding: 10,
+          borderSide: const BorderSide(color: Colors.black87)),
+      focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20),
+          gapPadding: 10,
+          borderSide: const BorderSide(color: Colors.black87)),
+      errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20),
           gapPadding: 10,
           borderSide: const BorderSide(color: Colors.black87)));

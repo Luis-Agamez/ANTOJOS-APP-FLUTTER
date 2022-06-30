@@ -8,7 +8,7 @@ abstract class TrolleyEvent extends Equatable {
 }
 
 class SetTrolleyEvent extends TrolleyEvent {
-  final List<Product> products;
+  final List<Response> products;
   const SetTrolleyEvent(this.products);
 }
 

@@ -4,7 +4,7 @@ class Product {
   Product({
     required this.title,
     required this.description,
-    this.images,
+    required this.images,
     required this.inStock,
     required this.price,
     required this.mid,
@@ -17,7 +17,7 @@ class Product {
 
   final String title;
   final String description;
-  final String? images;
+  final String images;
   final String inStock;
   final int price;
   final bool mid;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import '../blocs/history/history_bloc.dart';
 import '../blocs/search/search_bloc.dart';
 import '../services/constants.dart';
@@ -58,19 +59,15 @@ class SearchProductDelegate extends SearchDelegate {
                   const Divider(height: defaultPadding, color: Colors.black87),
             )
           : Center(
-              child: Text(
-              'No hay Resultados'.toUpperCase(),
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ));
+              child: Lottie.network(
+                  'https://assets5.lottiefiles.com/packages/lf20_uqfbsoei.json'));
     });
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return const Expanded(
-      child: Center(
-        child: Icon(Icons.search_outlined, size: 100, color: Colors.grey),
-      ),
+    return const Center(
+      child: Icon(Icons.search_outlined, size: 120, color: Colors.grey),
     );
   }
 }

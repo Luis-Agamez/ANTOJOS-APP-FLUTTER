@@ -9,7 +9,7 @@ import '../../models/add_favorite_response.dart';
 import '../../models/delete_favorite_response.dart';
 import '../../models/orderResponse.dart';
 import '../../models/product.dart';
-import '../../models/product_response.dart';
+import '../../models/trolley_response.dart';
 import '../order/order_bloc.dart';
 
 part 'trolley_event.dart';
@@ -18,6 +18,7 @@ part 'trolley_state.dart';
 class TrolleyBloc extends Bloc<TrolleyEvent, TrolleyState> {
   final OrderBloc orderBloc;
   late List<Product> products = [];
+  late List<Response> trolley = [];
   final _storage = const FlutterSecureStorage();
   TrolleyBloc({required this.orderBloc}) : super(const TrolleyState()) {
     on<SetTrolleyEvent>((event, emit) {
@@ -55,29 +56,29 @@ class TrolleyBloc extends Bloc<TrolleyEvent, TrolleyState> {
       late List<int> listAmount = [];
       late List<int> sTotal = [];
       int total = 0;
-      final productResponse = ProductResponse.fromJson(resp.body);
-      products = productResponse.products;
-      add(SetTrolleyEvent(products));
+      final productResponse = TrolleyResponse.fromJson(resp.body);
+      trolley = productResponse.response;
+      add(SetTrolleyEvent(trolley));
 
-      for (int i = 0; i < products.length; i++) {
-        total += products[i].price;
-        listAmount.add(int.parse(products[i].inStock));
+      for (int i = 0; i < trolley.length; i++) {
+        total += trolley[i].total;
+        listAmount.add(trolley[i].items);
         final data = {
-          'title': products[i].title,
-          "description": products[i].description,
-          "img": products[i].images,
-          "inStock": products[i].description,
-          "price": products[i].price.toString(),
+          'title': trolley[i].pid.title,
+          "description": trolley[i].pid.description,
+          "img": trolley[i].pid.images,
+          "inStock": trolley[i].pid.description,
+          "price": trolley[i].total.toString(),
           "size": '1'
         };
         final it = jsonEncode(data);
         final item = OderItem.fromJson(it);
 
         orderItems.add(item);
-        idItems.add(products[i].idFavorite);
-        sTotal.add(products[i].price);
+        idItems.add(trolley[i].id);
+        sTotal.add(trolley[i].total);
 
-        orderBloc.setData(orderItems, sTotal, total, products.length);
+        orderBloc.setData(orderItems, sTotal, total, trolley.length);
       }
 
       add(SetIdItemsEvent(idItems));
@@ -89,25 +90,25 @@ class TrolleyBloc extends Bloc<TrolleyEvent, TrolleyState> {
     return false;
   }
 
-  sendItem(Product product) {
+  sendItem(String title, String description, String images, int price) {
     late List<OderItem> orderItems = [];
     late List<int> sTotal = [];
     int total = 0;
-    total += product.price;
+    total += price;
 
     final data = {
-      'title': product.title,
-      "description": product.description,
-      "img": product.images,
-      "inStock": product.description,
-      "price": product.price.toString(),
+      'title': title,
+      "description": description,
+      "img": images,
+      "inStock": description,
+      "price": price.toString(),
       "size": '1'
     };
     final it = jsonEncode(data);
     final item = OderItem.fromJson(it);
 
     orderItems.add(item);
-    sTotal.add(product.price);
+    sTotal.add(price);
     orderBloc.setData(orderItems, sTotal, total, products.length);
   }
 

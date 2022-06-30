@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../blocs/trolley/trolley_bloc.dart';
-import '../models/product.dart';
+import '../models/trolley_response.dart';
 
 class DetailsTrolley extends StatelessWidget {
   const DetailsTrolley({Key? key}) : super(key: key);
@@ -11,8 +11,8 @@ class DetailsTrolley extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     final trolleyBloc = BlocProvider.of<TrolleyBloc>(context);
-    final Product product =
-        ModalRoute.of(context)!.settings.arguments as Product;
+    final Response product =
+        ModalRoute.of(context)!.settings.arguments as Response;
     return Scaffold(
       // backgroundColor: const Color.fromARGB(221, 241, 13, 13),
       appBar: AppBar(
@@ -33,7 +33,7 @@ class DetailsTrolley extends StatelessWidget {
             Hero(
               tag: product.id,
               child: Image.network(
-                '${product.images}',
+                product.pid.images,
                 height: 350,
                 width: double.infinity,
               ),
@@ -70,14 +70,14 @@ class DetailsTrolley extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 5),
                           child: Text(
-                            product.title,
+                            product.pid.title,
                             style: const TextStyle(fontSize: 24),
                           ),
                         ),
                         const SizedBox(height: 10),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 5),
-                          child: Text(product.description,
+                          child: Text(product.pid.description,
                               style: const TextStyle(fontSize: 18)),
                         ),
                         const SizedBox(height: 10),
@@ -93,7 +93,7 @@ class DetailsTrolley extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              ' ${product.inStock}',
+                              ' ${product.items}',
                               style: const TextStyle(fontSize: 16),
                             )
                           ],
@@ -112,7 +112,7 @@ class DetailsTrolley extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              '\$ ${product.price}',
+                              '\$ ${product.total}',
                               style: const TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.bold),
                             )
@@ -144,11 +144,11 @@ class DetailsTrolley extends StatelessWidget {
                         onPressed: () {
                           trolleyBloc.orderBloc.sendOrderItem(
                               trolleyBloc.orderBloc.state.orderItems,
-                              product.price,
+                              product.total,
                               trolleyBloc.orderBloc.state.orderItems.length,
-                              product.price,
-                              int.parse(product.inStock));
-                          trolleyBloc.removeItem(product.idFavorite);
+                              product.total,
+                              product.items);
+                          trolleyBloc.removeItem(product.id);
                           Navigator.pushNamed(context, 'confirm');
                         },
                         child: Text(
@@ -173,7 +173,7 @@ class DetailsTrolley extends StatelessWidget {
                               borderRadius: BorderRadius.circular(8),
                             ))),
                         onPressed: () {
-                          trolleyBloc.removeItem(product.idFavorite);
+                          trolleyBloc.removeItem(product.id);
                           Navigator.pushNamed(context, 'home');
                         },
                         child: Text(

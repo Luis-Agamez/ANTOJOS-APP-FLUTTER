@@ -123,18 +123,24 @@ class TrolleyScreen extends StatelessWidget {
                                         Navigator.pushNamed(
                                             context, 'detailstrolley',
                                             arguments: state.products[index]);
-                                        trolleyBloc
-                                            .sendItem(state.products[index]);
+                                        final product =
+                                            state.products[index].pid;
+                                        trolleyBloc.sendItem(
+                                            product.title,
+                                            product.description,
+                                            product.images,
+                                            product.price);
                                       },
                                       child: CardTrolley(
                                         id: state.products[index].id,
-                                        price: '${state.products[index].price}',
-                                        tag: state.products[index].slug,
-                                        title: state.products[index].title,
-                                        text: state.products[index].description,
-                                        image:
-                                            '${state.products[index].images}',
-                                        inStock: state.products[index].inStock,
+                                        price: '${state.products[index].total}',
+                                        tag: state.products[index].pid.slug,
+                                        title: state.products[index].pid.title,
+                                        text: state
+                                            .products[index].pid.description,
+                                        image: state.products[index].pid.images,
+                                        inStock:
+                                            '${state.products[index].items}',
                                       ),
                                     ),
                                     separatorBuilder: (context, index) =>

@@ -77,7 +77,7 @@ class DetailsOrder extends StatelessWidget {
                           children: [
                             Text('${order.amount[i]}',
                                 style: const TextStyle(fontSize: 16)),
-                            const SizedBox(width: 15),
+                            const SizedBox(width: 12),
                             ClipRRect(
                               borderRadius:
                                   const BorderRadius.all(Radius.circular(20)),
@@ -92,7 +92,7 @@ class DetailsOrder extends StatelessWidget {
                                 // Image.network(image),
                               ),
                             ),
-                            const SizedBox(width: 15),
+                            const SizedBox(width: 12),
                             Text(order.oderItems[i].title,
                                 style: const TextStyle(fontSize: 16)),
                             const SizedBox(width: 10),

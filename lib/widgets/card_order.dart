@@ -49,7 +49,7 @@ class CardOrder extends StatelessWidget {
                                 children: order.subTotal
                                     .map((item) => Row(
                                           children: [
-                                            const SizedBox(width: 20),
+                                            const SizedBox(width: 10),
                                             Text('$item')
                                           ],
                                         ))

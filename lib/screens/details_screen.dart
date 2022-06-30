@@ -125,7 +125,7 @@ class DetailsScreen extends StatelessWidget {
                       child: TextButton(
                         onPressed: () async {
                           int items = trolleyBloc.state.items.toInt();
-                          print(items);
+                          // print(items);
                           //TODO Trolley
                           if (items < 1) {
                             items = 1;
@@ -241,7 +241,7 @@ class HardButtom extends StatelessWidget {
             isLiked: true,
             onTap: (isLiked) async {
               final id = favoriteBloc.state.idFavorite;
-              print(id);
+              // print(id);
               favoriteBloc.removeFavorite(id);
               return false;
             },
@@ -350,7 +350,7 @@ class _CartCounterState extends State<CartCounter> {
     // print(stateTotal);
     // print(numOfItems);
     double getTotal = numOfItems * price;
-    print(getTotal);
+    // print(getTotal);
     return Row(children: <Widget>[
       _BuildOutlineButton(
           icon: Icons.remove,

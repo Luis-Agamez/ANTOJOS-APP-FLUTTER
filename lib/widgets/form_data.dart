@@ -49,14 +49,16 @@ class FormState extends State<FormData> {
     final city = TextEditingController(text: textCity);
     final district = TextEditingController(text: textDistrict);
     final reference = TextEditingController(text: textReference);
+    final GlobalKey<FormState> myFormKey = GlobalKey<FormState>();
 
     return Form(
+      key: myFormKey,
       child: Column(
         children: [
           const SizedBox(height: 50),
           data_input(
             textController: phone,
-            minimum: 3,
+            minimum: 10,
             placeholder: 'Ingrese su Telefono',
             subTitle: 'Telefono',
             type: TextInputType.number,
@@ -64,7 +66,7 @@ class FormState extends State<FormData> {
           const SizedBox(height: 30),
           data_input(
             textController: city,
-            minimum: 3,
+            minimum: 4,
             placeholder: 'Ingrese la Ciudad o Municipio',
             subTitle: 'Ciudad',
             type: TextInputType.text,
@@ -72,7 +74,7 @@ class FormState extends State<FormData> {
           const SizedBox(height: 30),
           data_input(
             textController: district,
-            minimum: 3,
+            minimum: 4,
             placeholder: 'Ingrese el Barrio o localidad',
             subTitle: 'Barrio',
             type: TextInputType.text,
@@ -80,7 +82,7 @@ class FormState extends State<FormData> {
           const SizedBox(height: 30),
           data_input(
             textController: reference,
-            minimum: 3,
+            minimum: 9,
             placeholder: 'Ingrese una referencia adicional',
             subTitle: 'Referencia',
             type: TextInputType.text,
@@ -90,6 +92,25 @@ class FormState extends State<FormData> {
               text: 'Confirmar',
               onPressed: register
                   ? () async {
+                      if (phone.text.length < 10 ||
+                          city.text.length < 4 ||
+                          district.text.length < 4 ||
+                          reference.text.length < 9) {
+                        var snackBar = SnackBar(
+                          elevation: 0,
+                          behavior: SnackBarBehavior.floating,
+                          backgroundColor: Colors.transparent,
+                          content: AwesomeSnackbarContent(
+                            title: '¡Error!',
+                            message: 'Complete los Campos',
+                            contentType: ContentType.failure,
+                          ),
+                        );
+
+                        return ScaffoldMessenger.of(context)
+                            .showSnackBar(snackBar);
+                      }
+
                       final state = userBloc.state;
                       // FocusScope.of(context).unfocus();
                       final registerOk = await authBloc.register(

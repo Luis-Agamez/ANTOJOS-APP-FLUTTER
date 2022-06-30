@@ -138,7 +138,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
   }
 
   void setTotalMid(int total) {
-    print(total);
+    // print(total);
     add(SetTotal(total));
   }
 }

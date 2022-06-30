@@ -65,12 +65,12 @@ class __FormState extends State<_Form> {
             CustomInput(
                 icon: Icons.perm_identity,
                 placeholder: 'Primer Nombre',
-                keyboardType: TextInputType.emailAddress,
+                keyboardType: TextInputType.text,
                 textController: nameCtrl),
             CustomInput(
                 icon: Icons.perm_identity,
                 placeholder: 'Primer Apellido',
-                keyboardType: TextInputType.emailAddress,
+                keyboardType: TextInputType.text,
                 textController: lastNameCtrl),
             CustomInput(
                 icon: Icons.email_outlined,
@@ -86,6 +86,44 @@ class __FormState extends State<_Form> {
             BottomRed(
                 text: 'Register',
                 onPressed: () async {
+                  late String text;
+                  if (passCtrl.text.length < 6) {
+                    text = 'la contraseña debe tener mas de 6 caracteres';
+                  }
+
+                  if (emailCtrl.text.length < 11) {
+                    text = 'El email debe tener minimo de 11 caracteres ';
+                  }
+
+                  if (lastNameCtrl.text.length < 5) {
+                    text = 'El apellido debe tener minimo de 4 caracteres';
+                  }
+                  if (passCtrl.text.length < 6) {
+                    text = 'la contraseña debe tener minimo de 6 caracteres';
+                  }
+                  if (nameCtrl.text.length < 4) {
+                    text = 'El nombre debe tener minimo de 3 caracteres';
+                  }
+
+                  if (nameCtrl.text.length < 4 ||
+                      passCtrl.text.length < 6 ||
+                      lastNameCtrl.text.length < 4 ||
+                      emailCtrl.text.length < 11 ||
+                      passCtrl.text.length < 6) {
+                    var snackBar = SnackBar(
+                      elevation: 0,
+                      behavior: SnackBarBehavior.floating,
+                      backgroundColor: Colors.transparent,
+                      content: AwesomeSnackbarContent(
+                        title: '¡Error!',
+                        message: text,
+                        contentType: ContentType.failure,
+                      ),
+                    );
+
+                    return ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  }
+
                   final state = userBloc.state;
 
                   userBloc.setData(nameCtrl.text.trim(), emailCtrl.text.trim(),
