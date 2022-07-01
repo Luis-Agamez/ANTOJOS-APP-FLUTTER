@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import '../blocs/auth/auth_bloc.dart';
 import '../blocs/order/order_bloc.dart';
@@ -30,14 +29,15 @@ class TrolleyScreen extends StatelessWidget {
         appBar: AppBar(
           centerTitle: true,
           backgroundColor: const Color.fromARGB(221, 241, 13, 13),
-          title: Text('Carrito',
-              style: GoogleFonts.lobster(
-                textStyle: const TextStyle(
-                  letterSpacing: 3,
-                  fontSize: 30,
-                  color: Color.fromARGB(255, 255, 255, 255),
-                ),
-              )),
+          title: const Text(
+            'Carrito',
+            style: TextStyle(
+              fontFamily: 'Lobster',
+              letterSpacing: 3,
+              fontSize: 30,
+              color: Color.fromARGB(255, 255, 255, 255),
+            ),
+          ),
         ),
         bottomNavigationBar:
             BlocBuilder<TrolleyBloc, TrolleyState>(builder: (_, state) {
@@ -157,14 +157,14 @@ class TrolleyScreen extends StatelessWidget {
                                   ),
                           )
                         : Center(
-                            child: Lottie.network(
-                                'https://assets9.lottiefiles.com/packages/lf20_L4w8VH.json'));
+                            child: Lottie.asset(
+                                'assets/animations/83548-online-shopping-black-friday.json'));
                   },
                 );
               } else {
                 return Center(
-                    child: Lottie.network(
-                        'https://assets9.lottiefiles.com/packages/lf20_L4w8VH.json'));
+                    child: Lottie.asset(
+                        'assets/animations/83548-online-shopping-black-friday.json'));
               }
             }));
   }

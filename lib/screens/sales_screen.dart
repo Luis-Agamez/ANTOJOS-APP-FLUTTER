@@ -1,7 +1,6 @@
 import 'package:antojos_app/blocs/auth/auth_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
 import '../blocs/order/order_bloc.dart';
@@ -31,14 +30,15 @@ class SalesScreen extends StatelessWidget {
         appBar: AppBar(
           centerTitle: true,
           backgroundColor: const Color.fromARGB(221, 241, 13, 13),
-          title: Text('Compras',
-              style: GoogleFonts.lobster(
-                textStyle: const TextStyle(
-                  letterSpacing: 3,
-                  fontSize: 30,
-                  color: Color.fromARGB(255, 255, 255, 255),
-                ),
-              )),
+          title: const Text(
+            'Compras',
+            style: TextStyle(
+              fontFamily: 'Lobster',
+              letterSpacing: 3,
+              fontSize: 30,
+              color: Color.fromARGB(255, 255, 255, 255),
+            ),
+          ),
         ),
         body: FutureBuilder(
             future: orderBloc.getOrders(),
@@ -76,8 +76,8 @@ class SalesScreen extends StatelessWidget {
                 );
               } else {
                 return Center(
-                    child: Lottie.network(
-                        'https://assets6.lottiefiles.com/packages/lf20_a20g35gn.json'));
+                    child: Lottie.asset(
+                        'assets/animations/21130-moving-trolley-with-man.json'));
               }
             }));
   }

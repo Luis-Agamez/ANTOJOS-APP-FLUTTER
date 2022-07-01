@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../blocs/auth/auth_bloc.dart';
 
 class SideMenu extends StatelessWidget {
@@ -159,12 +158,12 @@ class _DrawerHeader extends StatelessWidget {
             children: <Widget>[
               const Icon(Icons.person, size: 50, color: Colors.white),
               Text('Hola $name',
-                  style: GoogleFonts.lobster(
-                      textStyle: const TextStyle(
+                  style: const TextStyle(
+                    fontFamily: 'Lobster',
                     letterSpacing: 3,
                     fontSize: 30,
                     color: Color.fromARGB(255, 255, 255, 255),
-                  ))),
+                  )),
             ],
           ),
         ),

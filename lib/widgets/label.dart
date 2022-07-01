@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class Labels extends StatelessWidget {
   final String route;
@@ -16,13 +15,14 @@ class Labels extends StatelessWidget {
     return Container(
         child: Column(
       children: <Widget>[
-        Text(subTitle,
-            style: GoogleFonts.lobster(
-              textStyle: const TextStyle(
-                  color: Color.fromARGB(202, 0, 0, 0),
-                  fontSize: 18,
-                  fontWeight: FontWeight.w300),
-            )),
+        Text(
+          subTitle,
+          style: const TextStyle(
+              color: Color.fromARGB(202, 0, 0, 0),
+              fontSize: 18,
+              fontFamily: 'Lobster',
+              fontWeight: FontWeight.w300),
+        ),
         const SizedBox(height: 10),
         GestureDetector(
           onTap: () {
@@ -30,13 +30,11 @@ class Labels extends StatelessWidget {
           },
           child: Text(
             title,
-            style: GoogleFonts.lobster(
-              textStyle: const TextStyle(
+            style: const TextStyle(
                 letterSpacing: 1,
                 fontSize: 22,
                 color: Color.fromARGB(221, 241, 13, 13),
-              ),
-            ),
+                fontFamily: 'Lobster'),
           ),
         )
       ],

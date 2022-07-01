@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class BottomRed extends StatelessWidget {
   final String text;
@@ -26,9 +25,11 @@ class BottomRed extends StatelessWidget {
         child: Center(
             child: Text(
           text,
-          style: GoogleFonts.lobster(
-              textStyle: const TextStyle(
-                  color: Colors.white, fontSize: 28, letterSpacing: 2)),
+          style: const TextStyle(
+              color: Colors.white,
+              fontSize: 28,
+              letterSpacing: 2,
+              fontFamily: 'Lobster'),
         )),
       ),
     );

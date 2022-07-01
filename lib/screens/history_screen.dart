@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
 import '../blocs/auth/auth_bloc.dart';
@@ -30,14 +29,15 @@ class HistoryScreen extends StatelessWidget {
         appBar: AppBar(
           centerTitle: true,
           backgroundColor: const Color.fromARGB(221, 241, 13, 13),
-          title: Text('Historial',
-              style: GoogleFonts.lobster(
-                textStyle: const TextStyle(
-                  letterSpacing: 3,
-                  fontSize: 30,
-                  color: Color.fromARGB(255, 255, 255, 255),
-                ),
-              )),
+          title: const Text(
+            'Historial',
+            style: TextStyle(
+              fontFamily: 'Lobster',
+              letterSpacing: 3,
+              fontSize: 30,
+              color: Color.fromARGB(255, 255, 255, 255),
+            ),
+          ),
         ),
         body: FutureBuilder(
             future: historyBloc.getHistory(),
@@ -92,8 +92,8 @@ class HistoryScreen extends StatelessWidget {
                 );
               } else {
                 return Center(
-                    child: Lottie.network(
-                        'https://assets5.lottiefiles.com/packages/lf20_uqfbsoei.json'));
+                    child: Lottie.asset(
+                        'assets/animations/96528-search-not-found.json'));
               }
             }));
   }

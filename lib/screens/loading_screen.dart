@@ -15,8 +15,7 @@ class LoadingScreen extends StatelessWidget {
       future: chackLoginState(context),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         return Center(
-          child: Lottie.network(
-              'https://assets10.lottiefiles.com/packages/lf20_jmejybvu.json'),
+          child: Lottie.asset('assets/animations/35193-delivery.json'),
         );
       },
     ));

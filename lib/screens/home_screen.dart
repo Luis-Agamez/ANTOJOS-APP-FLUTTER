@@ -2,7 +2,6 @@ import 'package:antojos_app/services/constants.dart';
 import 'package:antojos_app/widgets/side_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../blocs/auth/auth_bloc.dart';
 import '../blocs/favorites/favorites_bloc.dart';
 import '../blocs/history/history_bloc.dart';
@@ -10,7 +9,6 @@ import '../blocs/order/order_bloc.dart';
 import '../blocs/product/product_bloc.dart';
 import '../blocs/trolley/trolley_bloc.dart';
 import '../delegate/delegates.dart';
-import '../models/trolley_response.dart';
 import '../models/user.dart';
 import '../widgets/card_view.dart';
 import '../widgets/skeleton.dart';
@@ -68,14 +66,15 @@ class _HomeScreenState extends State<HomeScreen> {
         appBar: AppBar(
           centerTitle: true,
           backgroundColor: const Color.fromARGB(221, 241, 13, 13),
-          title: Text('Antojos',
-              style: GoogleFonts.lobster(
-                textStyle: const TextStyle(
-                  letterSpacing: 3,
-                  fontSize: 30,
-                  color: Color.fromARGB(255, 255, 255, 255),
-                ),
-              )),
+          title: const Text(
+            'Antojos',
+            style: TextStyle(
+              fontFamily: 'Lobster',
+              letterSpacing: 3,
+              fontSize: 30,
+              color: Color.fromARGB(255, 255, 255, 255),
+            ),
+          ),
           actions: <Widget>[
             Row(
               children: [

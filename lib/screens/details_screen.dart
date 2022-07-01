@@ -1,7 +1,6 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:like_button/like_button.dart';
 import '../blocs/favorites/favorites_bloc.dart';
 import '../blocs/order/order_bloc.dart';
@@ -24,14 +23,15 @@ class DetailsScreen extends StatelessWidget {
         appBar: AppBar(
           centerTitle: true,
           backgroundColor: const Color.fromARGB(195, 241, 13, 13),
-          title: Text('Antojos',
-              style: GoogleFonts.lobster(
-                textStyle: const TextStyle(
-                  letterSpacing: 3,
-                  fontSize: 30,
-                  color: Color.fromARGB(255, 255, 255, 255),
-                ),
-              )),
+          title: const Text(
+            'Antojos',
+            style: TextStyle(
+              fontFamily: 'Lobster',
+              letterSpacing: 3,
+              fontSize: 30,
+              color: Color.fromARGB(255, 255, 255, 255),
+            ),
+          ),
         ),
         body: SingleChildScrollView(
           child: Column(

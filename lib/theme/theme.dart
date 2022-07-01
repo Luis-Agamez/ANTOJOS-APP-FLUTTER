@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 
+ThemeData theme() {
+  return ThemeData(
+    fontFamily: "Lobster",
+  );
+}
+
 decoration(String labelText, String hintText) {
   return InputDecoration(
       labelStyle: const TextStyle(color: Color.fromARGB(221, 241, 13, 13)),

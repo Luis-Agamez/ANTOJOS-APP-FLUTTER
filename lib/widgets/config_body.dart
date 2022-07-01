@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class ConfigBody extends StatelessWidget {
   const ConfigBody({Key? key}) : super(key: key);
@@ -80,16 +79,16 @@ class ProfileMenu extends StatelessWidget {
               width: 20,
             ),
             Expanded(
-                child: Text(
-              text,
-              style: GoogleFonts.lobster(
-                textStyle: const TextStyle(
+              child: Text(
+                text,
+                style: const TextStyle(
                   letterSpacing: 3,
+                  fontFamily: 'Lobster',
                   fontSize: 22,
                   color: Color.fromARGB(190, 14, 1, 1),
                 ),
               ),
-            )),
+            ),
             const Icon(
               Icons.arrow_forward_ios,
               color: Color.fromARGB(190, 14, 1, 1),

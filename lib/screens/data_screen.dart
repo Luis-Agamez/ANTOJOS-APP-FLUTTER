@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../widgets/form_data.dart';
 
 class DataScreen extends StatelessWidget {
@@ -11,14 +10,15 @@ class DataScreen extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: const Color.fromARGB(221, 241, 13, 13),
-        title: Text('Mi cuenta',
-            style: GoogleFonts.lobster(
-              textStyle: const TextStyle(
-                letterSpacing: 3,
-                fontSize: 30,
-                color: Color.fromARGB(255, 255, 255, 255),
-              ),
-            )),
+        title: const Text(
+          'Mi cuenta',
+          style: TextStyle(
+            fontFamily: 'Lobster',
+            letterSpacing: 3,
+            fontSize: 30,
+            color: Color.fromARGB(255, 255, 255, 255),
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: SafeArea(

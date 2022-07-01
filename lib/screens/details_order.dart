@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../blocs/order/order_bloc.dart';
 import '../models/orderResponse.dart';
 
@@ -17,14 +16,15 @@ class DetailsOrder extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: const Color.fromARGB(221, 241, 13, 13),
-        title: Text('Pedido',
-            style: GoogleFonts.lobster(
-              textStyle: const TextStyle(
-                letterSpacing: 3,
-                fontSize: 30,
-                color: Color.fromARGB(255, 255, 255, 255),
-              ),
-            )),
+        title: const Text(
+          'Pedido',
+          style: TextStyle(
+            fontFamily: 'Lobster',
+            letterSpacing: 3,
+            fontSize: 30,
+            color: Color.fromARGB(255, 255, 255, 255),
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(

@@ -59,8 +59,8 @@ class SearchProductDelegate extends SearchDelegate {
                   const Divider(height: defaultPadding, color: Colors.black87),
             )
           : Center(
-              child: Lottie.network(
-                  'https://assets5.lottiefiles.com/packages/lf20_uqfbsoei.json'));
+              child: Lottie.asset(
+                  'assets/animations/96528-search-not-found.json'));
     });
   }
 
