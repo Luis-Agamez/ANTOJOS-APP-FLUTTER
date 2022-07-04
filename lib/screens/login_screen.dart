@@ -1,10 +1,10 @@
+import 'package:antojos_app/blocs/blocs.dart';
 import 'package:antojos_app/widgets/bottom_red.dart';
 import 'package:antojos_app/widgets/label.dart';
 import 'package:antojos_app/widgets/logo.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../blocs/auth/auth_bloc.dart';
 import '../widgets/custom_input.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -51,8 +51,7 @@ class __FormState extends State<_Form> {
 
   @override
   Widget build(BuildContext context) {
-    late AuthBloc authBloc;
-    authBloc = BlocProvider.of<AuthBloc>(context);
+    final authBloc = BlocProvider.of<AuthBloc>(context);
     return Container(
         margin: const EdgeInsets.only(top: 40),
         padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -73,15 +72,12 @@ class __FormState extends State<_Form> {
                 text: 'Login',
                 onPressed: () async {
                   FocusScope.of(context).unfocus();
-                  print(emailCtrl.text);
-                  print(passCtrl.text);
                   final loginOk = await authBloc.login(
                       emailCtrl.text.trim(), passCtrl.text.trim());
                   if (loginOk) {
                     print('login success');
                     Navigator.pushReplacementNamed(context, 'home');
                   } else {
-                    print(loginOk);
                     var snackBar = SnackBar(
                       elevation: 0,
                       behavior: SnackBarBehavior.floating,

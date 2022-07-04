@@ -1,4 +1,4 @@
-import 'package:antojos_app/blocs/auth/auth_bloc.dart';
+import 'package:antojos_app/blocs/blocs.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -51,12 +51,13 @@ class ConfigScreen extends StatelessWidget {
             BottomRed(
                 text: 'Actualizar',
                 onPressed: () async {
-                  final user = authBloc.state.user;
+                  authBloc.activeLoading();
                   FocusScope.of(context).unfocus();
                   final registerOk = await authBloc.updatedData(
                       name.text.trim(),
                       lastName.text.trim(),
                       email.text.trim());
+                  authBloc.desactiveLoading();
                   if (registerOk) {
                     var snackBar = SnackBar(
                       elevation: 0,

@@ -1,10 +1,8 @@
+import 'package:antojos_app/blocs/blocs.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:like_button/like_button.dart';
-import '../blocs/favorites/favorites_bloc.dart';
-import '../blocs/order/order_bloc.dart';
-import '../blocs/trolley/trolley_bloc.dart';
 import '../models/product.dart';
 
 class DetailsScreen extends StatelessWidget {
@@ -15,7 +13,6 @@ class DetailsScreen extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     final favoriteBloc = BlocProvider.of<FavoritesBloc>(context);
     final trolleyBloc = BlocProvider.of<TrolleyBloc>(context);
-    final orderBloc = BlocProvider.of<OrderBloc>(context);
     final Product product =
         ModalRoute.of(context)!.settings.arguments as Product;
     return Scaffold(
@@ -39,7 +36,7 @@ class DetailsScreen extends StatelessWidget {
               Hero(
                 tag: product.id,
                 child: Image.network(
-                  '${product.images}',
+                  product.images,
                   height: 350,
                   width: double.infinity,
                 ),
@@ -120,50 +117,58 @@ class DetailsScreen extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                      margin: const EdgeInsets.only(right: 16),
-                      child: TextButton(
-                        onPressed: () async {
-                          int items = trolleyBloc.state.items.toInt();
-                          // print(items);
-                          //TODO Trolley
-                          if (items < 1) {
-                            items = 1;
-                          }
-                          int total = trolleyBloc.orderBloc.state.total;
+                  BlocBuilder<TrolleyBloc, TrolleyState>(builder: (_, state) {
+                    return Container(
+                        margin: const EdgeInsets.only(right: 16),
+                        child: TextButton(
+                          onPressed: state.loading
+                              ? null
+                              : () async {
+                                  int items = trolleyBloc.state.items.toInt();
 
-                          if (total <= 0) {
-                            total = product.price;
-                          }
-                          final resp = await trolleyBloc.sendFavorite(
-                              items, total, product.id);
-                          trolleyBloc.orderBloc.clearData();
-                          trolleyBloc.clearData();
-                          var snackBar = SnackBar(
-                            elevation: 0,
-                            behavior: SnackBarBehavior.floating,
-                            backgroundColor: Colors.transparent,
-                            content: AwesomeSnackbarContent(
-                              title: '¡Mensaje!',
-                              message: resp.toUpperCase(),
-                              contentType: ContentType.success,
-                            ),
-                          );
+                                  if (items < 1) {
+                                    items = 1;
+                                  }
+                                  int total = trolleyBloc.orderBloc.state.total;
 
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                        },
-                        child: const Icon(Icons.add_shopping_cart_outlined,
-                            color: Color.fromARGB(255, 255, 255, 255),
-                            size: 32),
-                      ),
-                      width: 50,
-                      height: 50,
-                      decoration: BoxDecoration(
-                          color: const Color.fromARGB(221, 241, 13, 13),
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(
-                            color: const Color.fromARGB(221, 241, 13, 13),
-                          ))),
+                                  if (total <= 0) {
+                                    total = product.price;
+                                  }
+                                  final resp = await trolleyBloc.sendFavorite(
+                                      items, total, product.id);
+                                  trolleyBloc.orderBloc.clearData();
+                                  trolleyBloc.clearData();
+                                  var snackBar = SnackBar(
+                                    elevation: 0,
+                                    behavior: SnackBarBehavior.floating,
+                                    backgroundColor: Colors.transparent,
+                                    content: AwesomeSnackbarContent(
+                                      title: '¡Mensaje!',
+                                      message: resp.toUpperCase(),
+                                      contentType: ContentType.success,
+                                    ),
+                                  );
+
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(snackBar);
+                                },
+                          child: const Icon(Icons.add_shopping_cart_outlined,
+                              color: Color.fromARGB(255, 255, 255, 255),
+                              size: 32),
+                        ),
+                        width: 50,
+                        height: 50,
+                        decoration: BoxDecoration(
+                            color: state.loading
+                                ? const Color.fromARGB(221, 121, 120, 120)
+                                : const Color.fromARGB(221, 241, 13, 13),
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(
+                              color: state.loading
+                                  ? const Color.fromARGB(221, 121, 120, 120)
+                                  : const Color.fromARGB(221, 241, 13, 13),
+                            )));
+                  }),
                   HardButtom(
                     favoriteBloc: favoriteBloc,
                     product: product,

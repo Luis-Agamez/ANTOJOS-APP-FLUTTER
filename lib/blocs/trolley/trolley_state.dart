@@ -2,6 +2,7 @@ part of 'trolley_bloc.dart';
 
 class TrolleyState extends Equatable {
   final bool existsProducts;
+  final bool loading;
   final List<Response> products;
   final List<int> listAmount;
   final List<String> idItems;
@@ -12,6 +13,7 @@ class TrolleyState extends Equatable {
 
   const TrolleyState(
       {this.existsProducts = false,
+      this.loading = false,
       this.total = 0,
       this.items = 0,
       this.products = const [],
@@ -20,6 +22,7 @@ class TrolleyState extends Equatable {
 
   TrolleyState copyWith(
           {bool? existsProducts,
+          bool? loading,
           int? total,
           double? items,
           List<Response>? products,
@@ -27,6 +30,7 @@ class TrolleyState extends Equatable {
           List<int>? listAmount}) =>
       TrolleyState(
         existsProducts: existsProducts ?? this.existsProducts,
+        loading: loading ?? this.loading,
         total: total ?? this.total,
         items: items ?? this.items,
         products: products ?? this.products,
@@ -36,5 +40,5 @@ class TrolleyState extends Equatable {
 
   @override
   List<Object> get props =>
-      [existsProducts, products, total, items, idItems, listAmount];
+      [existsProducts, products, total, items, idItems, listAmount, loading];
 }

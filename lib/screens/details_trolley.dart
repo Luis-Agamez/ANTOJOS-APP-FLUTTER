@@ -1,6 +1,6 @@
+import 'package:antojos_app/blocs/blocs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../blocs/trolley/trolley_bloc.dart';
 import '../models/trolley_response.dart';
 
 class DetailsTrolley extends StatelessWidget {

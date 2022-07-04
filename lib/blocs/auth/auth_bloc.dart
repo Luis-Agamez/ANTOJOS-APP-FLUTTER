@@ -16,18 +16,23 @@ part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   late User user;
-  final _storage = FlutterSecureStorage();
+  final _storage = const FlutterSecureStorage();
 
   AuthBloc() : super(const AuthState()) {
-    // TODO: implement event handler
     on<ActiveUser>((event, emit) =>
         emit(state.copyWith(existsUser: true, user: event.user)));
-
     on<CleanUser>(
         (event, emit) => emit(state.copyWith(existsUser: false, user: null)));
+
+    on<AutenticationActive>(
+        (event, emit) => emit(state.copyWith(loading: true)));
+    on<AutenticationDesactive>(
+        (event, emit) => emit(state.copyWith(loading: false)));
   }
 
   Future<bool> login(String email, String password) async {
+    add(AutenticationActive());
+
     late User user;
     final data = {'email': email, 'password': password};
 
@@ -37,8 +42,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         body: jsonEncode(data), headers: {'Content-Type': 'application/json'});
 
     print(resp.body);
+    add(AutenticationDesactive());
     if (resp.statusCode == 200) {
-      print(resp.body);
       final loginResponse = LoginResponse.fromJson(resp.body);
       user = loginResponse.user;
       await _savedToken(loginResponse.token);
@@ -70,25 +75,31 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       'reference': reference
     };
 
+    add(AutenticationActive());
+
     final uri = Uri.parse('${Environment.apiUrl}/auth/new');
 
     final resp = await http.post(uri,
         body: jsonEncode(data), headers: {'Content-Type': 'application/json'});
     print(resp.body);
+
     if (resp.statusCode == 200) {
       final loginResponse = LoginResponse.fromJson(resp.body);
       user = loginResponse.user;
       await _savedToken(loginResponse.token);
       add(ActiveUser(user));
+      add(AutenticationDesactive());
       return true;
     } else {
       final resBody = jsonDecode(resp.body);
+      add(AutenticationDesactive());
       return resBody['ok'];
     }
   }
 
   Future updatedLocation(String phoneNumber, String city, String district,
       String reference) async {
+    add(AutenticationActive());
     final token = await _storage.read(key: 'token');
     final data = {
       'phoneNumber': phoneNumber,
@@ -102,20 +113,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final resp = await http.post(uri,
         body: jsonEncode(data),
         headers: {'Content-Type': 'application/json', 'x-token': '$token'});
-    print(resp.body);
     if (resp.statusCode == 200) {
-      print(resp.body);
       final loginResponse = DataResponse.fromJson(resp.body);
       user = loginResponse.user;
       add(ActiveUser(user));
-      print(user);
+      add(AutenticationDesactive());
       return true;
     } else {
+      add(AutenticationDesactive());
       return false;
     }
   }
 
   Future updatedData(String name, String lastName, String email) async {
+    add(AutenticationActive());
     final token = await _storage.read(key: 'token');
     final data = {
       'name': name,
@@ -128,15 +139,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final resp = await http.post(uri,
         body: jsonEncode(data),
         headers: {'Content-Type': 'application/json', 'x-token': '$token'});
-    print(resp.body);
     if (resp.statusCode == 200) {
-      print(resp.body);
       final loginResponse = DataResponse.fromJson(resp.body);
       user = loginResponse.user;
       add(ActiveUser(user));
-      print(user);
+      add(AutenticationDesactive());
       return true;
     } else {
+      add(AutenticationDesactive());
       return false;
     }
   }
@@ -157,7 +167,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     if (resp.statusCode == 200) {
       final loginResponse = LoginResponse.fromJson(resp.body);
       user = loginResponse.user;
-      print(user);
       add(ActiveUser(user));
       await _savedToken(loginResponse.token);
       return true;
@@ -173,6 +182,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   Future<bool> passUpdated(String passOld, String passNew) async {
+    add(AutenticationActive());
     final token = await _storage.read(key: 'token');
     final data = {'pass': passOld, 'newpass': passNew};
 
@@ -182,11 +192,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         body: jsonEncode(data),
         headers: {'Content-Type': 'application/json', 'x-token': '$token'});
     final loginResponse = PassResponse.fromJson(resp.body);
-    print(resp.body);
     if (loginResponse.ok == true) {
+      add(AutenticationDesactive());
       return true;
     } else {
+      add(AutenticationDesactive());
       return false;
     }
+  }
+
+  void activeLoading() {
+    add(AutenticationActive());
+  }
+
+  void desactiveLoading() {
+    add(AutenticationDesactive());
   }
 }

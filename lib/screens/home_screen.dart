@@ -1,13 +1,8 @@
+import 'package:antojos_app/blocs/blocs.dart';
 import 'package:antojos_app/services/constants.dart';
 import 'package:antojos_app/widgets/side_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../blocs/auth/auth_bloc.dart';
-import '../blocs/favorites/favorites_bloc.dart';
-import '../blocs/history/history_bloc.dart';
-import '../blocs/order/order_bloc.dart';
-import '../blocs/product/product_bloc.dart';
-import '../blocs/trolley/trolley_bloc.dart';
 import '../delegate/delegates.dart';
 import '../models/user.dart';
 import '../widgets/card_view.dart';
@@ -26,11 +21,9 @@ class _HomeScreenState extends State<HomeScreen> {
   late HistoryBloc historyBloc;
   late OrderBloc orderBloc;
   late TrolleyBloc trolleyBloc;
-  late bool _isLoading;
 
   @override
   void initState() {
-    _isLoading = true;
     // Future.delayed(const Duration(seconds: 2), () {
     //   setState(() {
     //     _isLoading = false;
@@ -49,12 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    late AuthBloc authBloc;
-    late ProductBloc productBloc;
-    authBloc = BlocProvider.of<AuthBloc>(context);
-    productBloc = BlocProvider.of<ProductBloc>(context);
     final favoriteBloc = BlocProvider.of<FavoritesBloc>(context);
-    print(productBloc.state.products.length);
     return Scaffold(
         drawer: BlocBuilder<AuthBloc, AuthState>(builder: (_, state) {
           return state.existsUser
@@ -124,7 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           tag: state.products[index].slug,
                           title: state.products[index].title,
                           text: state.products[index].description,
-                          image: '${state.products[index].images}',
+                          image: state.products[index].images,
                         ),
                       ),
                       separatorBuilder: (context, index) => const Divider(

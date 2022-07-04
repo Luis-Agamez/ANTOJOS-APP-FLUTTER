@@ -1,3 +1,4 @@
+import 'package:antojos_app/blocs/blocs.dart';
 import 'package:antojos_app/widgets/bottom_red.dart';
 import 'package:antojos_app/widgets/label.dart';
 import 'package:antojos_app/widgets/logo.dart';
@@ -5,8 +6,6 @@ import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../blocs/auth/auth_bloc.dart';
-import '../blocs/user/user_bloc.dart';
 import '../widgets/custom_input.dart';
 
 class RegisterScreen extends StatelessWidget {
@@ -88,21 +87,21 @@ class __FormState extends State<_Form> {
                 onPressed: () async {
                   late String text;
                   if (passCtrl.text.length < 6) {
-                    text = 'la contraseña debe tener mas de 6 caracteres';
+                    text = 'la contraseña debe minmo  6 caracteres';
                   }
 
                   if (emailCtrl.text.length < 11) {
-                    text = 'El email debe tener minimo de 11 caracteres ';
+                    text = 'El email debe tener minimo 11 caracteres ';
                   }
 
                   if (lastNameCtrl.text.length < 5) {
-                    text = 'El apellido debe tener minimo de 4 caracteres';
+                    text = 'El apellido debe tener minimo  4 caracteres';
                   }
                   if (passCtrl.text.length < 6) {
-                    text = 'la contraseña debe tener minimo de 6 caracteres';
+                    text = 'la contraseña debe tener minimo  6 caracteres';
                   }
                   if (nameCtrl.text.length < 4) {
-                    text = 'El nombre debe tener minimo de 3 caracteres';
+                    text = 'El nombre debe tener minimo  3 caracteres';
                   }
 
                   if (nameCtrl.text.length < 4 ||
@@ -123,8 +122,6 @@ class __FormState extends State<_Form> {
 
                     return ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   }
-
-                  final state = userBloc.state;
 
                   userBloc.setData(nameCtrl.text.trim(), emailCtrl.text.trim(),
                       lastNameCtrl.text.trim(), passCtrl.text.trim());

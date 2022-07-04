@@ -23,7 +23,7 @@ class CardOrder extends StatelessWidget {
                 children: [
                   Text(
                     'Pedido No : ${order.id}',
-                    style: Theme.of(context).textTheme.caption,
+                    style: const TextStyle(fontSize: 12, color: Colors.black),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
@@ -31,11 +31,13 @@ class CardOrder extends StatelessWidget {
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text('Productos refenciados:'),
+                          const Text('Productos refenciados:',
+                              style:
+                                  TextStyle(fontSize: 12, color: Colors.black)),
                           Text(
                             ' ${order.numberOfItems}',
                             style: const TextStyle(
-                                fontSize: 17, fontWeight: FontWeight.bold),
+                                fontSize: 14, color: Colors.black),
                           ),
                         ]),
                   ),
@@ -44,13 +46,17 @@ class CardOrder extends StatelessWidget {
                       Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text('Subtotal :'),
+                            const Text('Subtotal :',
+                                style: TextStyle(color: Colors.black)),
                             Row(
                                 children: order.subTotal
                                     .map((item) => Row(
                                           children: [
                                             const SizedBox(width: 5),
-                                            Text('$item')
+                                            Text('$item',
+                                                style: const TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 12))
                                           ],
                                         ))
                                     .toList()),
@@ -61,7 +67,9 @@ class CardOrder extends StatelessWidget {
                           children: [
                             const Text(
                               'Total :',
-                              style: TextStyle(fontSize: 16),
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: Color.fromARGB(221, 241, 13, 13)),
                             ),
                             Text(
                               ' \$ ${order.totals} ',

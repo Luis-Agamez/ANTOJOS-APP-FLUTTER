@@ -37,6 +37,12 @@ class TrolleyBloc extends Bloc<TrolleyEvent, TrolleyState> {
     on<SetListAmountEvent>((event, emit) {
       emit(state.copyWith(listAmount: event.listAmount));
     });
+    on<LoadingActiveEvent>((event, emit) {
+      emit(state.copyWith(loading: true));
+    });
+    on<LoadingDesactiveEvent>((event, emit) {
+      emit(state.copyWith(loading: false));
+    });
     on<CleanEvent>((event, emit) {
       emit(const TrolleyState());
     });
@@ -113,6 +119,7 @@ class TrolleyBloc extends Bloc<TrolleyEvent, TrolleyState> {
   }
 
   Future<String> sendFavorite(int items, int price, String pid) async {
+    add(LoadingActiveEvent());
     final total = price;
     final token = await _storage.read(key: 'token');
     final data = {'items': items, 'total': total, 'pid': pid};
@@ -126,8 +133,10 @@ class TrolleyBloc extends Bloc<TrolleyEvent, TrolleyState> {
     print(resp.body);
     final body = AddFavoritesResponse.fromJson(resp.body);
     if (resp.statusCode == 200) {
+      add(LoadingActiveEvent());
       return body.msg;
     } else {
+      add(LoadingActiveEvent());
       return body.msg;
     }
   }

@@ -35,3 +35,7 @@ class SetListAmountEvent extends TrolleyEvent {
   final List<int> listAmount;
   const SetListAmountEvent(this.listAmount);
 }
+
+class LoadingActiveEvent extends TrolleyEvent {}
+
+class LoadingDesactiveEvent extends TrolleyEvent {}

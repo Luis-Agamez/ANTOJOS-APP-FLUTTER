@@ -1,7 +1,6 @@
+import 'package:antojos_app/blocs/blocs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../blocs/auth/auth_bloc.dart';
 import '../widgets/bottom_red.dart';
 
 class ConfirmScreen extends StatelessWidget {
@@ -45,7 +44,7 @@ class ConfirmScreen extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    state.existsUser ? '${user!.email}  ' : '',
+                    state.existsUser ? user!.email : '',
                     style: const TextStyle(fontSize: 18, letterSpacing: 1),
                   )
                 ],
@@ -115,32 +114,27 @@ class ConfirmScreen extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              Container(
-                width: double.infinity,
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      TextButton(
-                          style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all(
-                                const Color.fromARGB(221, 241, 13, 13),
-                              ),
-                              shape: MaterialStateProperty.all<
-                                      RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ))),
-                          onPressed: () {
-                            Navigator.pushNamed(context, 'userconfig');
-                          },
-                          child: Text(
-                            'Cambiar Direccion'.toUpperCase(),
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
-                          )),
-                    ]),
-              ),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    TextButton(
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                              const Color.fromARGB(221, 241, 13, 13),
+                            ),
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ))),
+                        onPressed: () {
+                          Navigator.pushNamed(context, 'userconfig');
+                        },
+                        child: Text(
+                          'Cambiar Direccion'.toUpperCase(),
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.white),
+                        )),
+                  ]),
             ],
           ),
         ),

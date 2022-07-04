@@ -1,9 +1,9 @@
+import 'package:antojos_app/blocs/blocs.dart';
 import 'package:antojos_app/theme/theme.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../blocs/auth/auth_bloc.dart';
 import '../../widgets/bottom_red.dart';
 
 class PassScreen extends StatelessWidget {

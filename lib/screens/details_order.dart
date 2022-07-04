@@ -1,6 +1,6 @@
+import 'package:antojos_app/blocs/blocs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../blocs/order/order_bloc.dart';
 import '../models/orderResponse.dart';
 
 class DetailsOrder extends StatelessWidget {
@@ -149,7 +149,7 @@ class DetailsOrder extends StatelessWidget {
                 ),
                 CheckOrder(order: order, status: order.delivered),
               ]),
-              SizedBox(height: 20)
+              const SizedBox(height: 20)
             ],
           ),
         ),
@@ -174,73 +174,68 @@ class DetailsOrder extends StatelessWidget {
             // const _ShopeName(),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
-              child: Container(
-                width: double.infinity,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            const SizedBox(height: 10),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Subtotal'.toUpperCase(),
-                                  style: const TextStyle(fontSize: 14),
-                                ),
-                              ],
-                            ),
-                            Column(
-                              children: order.subTotal
-                                  .map((e) => Column(children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            const SizedBox(
-                                              width: 260,
-                                            ),
-                                            Text(
-                                              '$e',
-                                              style:
-                                                  const TextStyle(fontSize: 16),
-                                            ),
-                                          ],
-                                        ),
-                                      ]))
-                                  .toList(),
-                            ),
-                            const Divider(height: 5, color: Colors.black87),
-                            const SizedBox(height: 10),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Total :'.toUpperCase(),
-                                  style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                const SizedBox(
-                                  width: 160,
-                                ),
-                                Text(
-                                  '\$ ${order.totals}',
-                                  style: const TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
-                                )
-                              ],
-                            ),
-                            const Divider(color: Colors.grey, height: 10),
-                          ]),
-                    ),
-                  ],
-                ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          const SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Subtotal'.toUpperCase(),
+                                style: const TextStyle(fontSize: 14),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            children: order.subTotal
+                                .map((e) => Column(children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          const SizedBox(
+                                            width: 260,
+                                          ),
+                                          Text(
+                                            '$e',
+                                            style:
+                                                const TextStyle(fontSize: 16),
+                                          ),
+                                        ],
+                                      ),
+                                    ]))
+                                .toList(),
+                          ),
+                          const Divider(height: 5, color: Colors.black87),
+                          const SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Total :'.toUpperCase(),
+                                style: const TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(
+                                width: 160,
+                              ),
+                              Text(
+                                '\$ ${order.totals}',
+                                style: const TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              )
+                            ],
+                          ),
+                          const Divider(color: Colors.grey, height: 10),
+                        ]),
+                  ),
+                ],
               ),
             ),
             Padding(

@@ -13,3 +13,7 @@ class ActiveUser extends AuthEvent {
 }
 
 class CleanUser extends AuthEvent {}
+
+class AutenticationActive extends AuthEvent {}
+
+class AutenticationDesactive extends AuthEvent {}

@@ -1,9 +1,7 @@
+import 'package:antojos_app/blocs/blocs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
-
-import '../blocs/auth/auth_bloc.dart';
-import '../blocs/history/history_bloc.dart';
 import '../services/constants.dart';
 import '../widgets/card_view.dart';
 import '../widgets/side_menu.dart';
@@ -14,8 +12,6 @@ class HistoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    late bool _isLoading;
-    final authBloc = BlocProvider.of<AuthBloc>(context);
     final historyBloc = BlocProvider.of<HistoryBloc>(context);
     return Scaffold(
         drawer: BlocBuilder<AuthBloc, AuthState>(builder: (_, state) {

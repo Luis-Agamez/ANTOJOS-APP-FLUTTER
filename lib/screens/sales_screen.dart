@@ -1,9 +1,7 @@
-import 'package:antojos_app/blocs/auth/auth_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
-
-import '../blocs/order/order_bloc.dart';
+import '../blocs/blocs.dart';
 import '../widgets/card_order.dart';
 import '../widgets/side_menu.dart';
 import '../widgets/skeleton.dart';
@@ -24,7 +22,7 @@ class SalesScreen extends StatelessWidget {
               ? SideMenu(
                   name: state.user!.name,
                   // name: state.user!.name,
-                  colorShoping: Color.fromARGB(221, 241, 13, 13))
+                  colorShoping: const Color.fromARGB(221, 241, 13, 13))
               : const Text('');
         }),
         appBar: AppBar(
@@ -52,14 +50,12 @@ class SalesScreen extends StatelessWidget {
                       child: state.existOrder
                           ? ListView.separated(
                               itemCount: state.order.length,
-                              itemBuilder: (context, index) => GestureDetector(
-                                onTap: () {
+                              itemBuilder: (context, index) => TextButton(
+                                onPressed: () {
                                   Navigator.pushNamed(context, 'detailsorder',
                                       arguments: state.order[index]);
                                 },
-                                child: Container(
-                                    child:
-                                        CardOrder(order: state.order[index])),
+                                child: CardOrder(order: state.order[index]),
                               ),
                               separatorBuilder: (context, index) =>
                                   const Divider(

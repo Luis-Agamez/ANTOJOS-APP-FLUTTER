@@ -1,9 +1,7 @@
+import 'package:antojos_app/blocs/blocs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
-import '../blocs/auth/auth_bloc.dart';
-import '../blocs/order/order_bloc.dart';
-import '../blocs/trolley/trolley_bloc.dart';
 import '../services/constants.dart';
 import '../widgets/bottom_red.dart';
 import '../widgets/card_trolley.dart';
@@ -15,7 +13,7 @@ class TrolleyScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    late bool _isLoading;
+    final authBloc = BlocProvider.of<AuthBloc>(context);
     final trolleyBloc = BlocProvider.of<TrolleyBloc>(context);
     final orderBloc = BlocProvider.of<OrderBloc>(context);
     return Scaffold(
@@ -87,6 +85,7 @@ class TrolleyScreen extends StatelessWidget {
                         BottomRed(
                           text: 'Comprar ahora',
                           onPressed: () {
+                            authBloc.activeLoading();
                             orderBloc.sendOrder(
                                 orderBloc.state.orderItems,
                                 orderBloc.state.subTotal,
@@ -95,6 +94,7 @@ class TrolleyScreen extends StatelessWidget {
                                 state.listAmount);
 
                             trolleyBloc.removeItems(trolleyBloc.state.idItems);
+                            authBloc.desactiveLoading();
                             Navigator.pushNamed(context, 'confirm');
                           },
                         )
